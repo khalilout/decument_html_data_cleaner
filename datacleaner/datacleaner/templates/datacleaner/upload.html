@@ -227,7 +227,7 @@
             border-radius: 50%;
             background: rgba(103, 126, 234, 0.1);
             transform: translate(-50%, -50%);
-            transition: all 0.6s ease;
+            transition: all 0.5s ease;
         }
 
         .file-drop-zone:hover::before {
@@ -238,322 +238,384 @@
         .file-drop-zone:hover {
             border-color: var(--primary);
             transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(111, 66, 193, 0.2);
+            box-shadow: 0 15px 40px rgba(103, 126, 234, 0.2);
         }
 
-        .file-drop-zone.drag-over {
-            border-color: var(--success);
-            background: rgba(32, 201, 151, 0.05);
+        .file-drop-zone.dragover {
+            border-color: var(--secondary);
+            background: linear-gradient(145deg, #f5f0ff, #fff5f8);
+            transform: scale(1.02);
         }
 
-        .file-drop-zone i {
+        .upload-icon {
             font-size: 4rem;
             color: var(--primary);
-            display: block;
             margin-bottom: 1rem;
             animation: bounce 2s infinite;
+            position: relative;
+            z-index: 1;
         }
 
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+            50% { transform: translateY(-15px); }
         }
 
-        .file-drop-zone h4 {
-            color: var(--dark);
+        .file-drop-zone input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .file-info {
+            position: relative;
+            z-index: 1;
+        }
+
+        .file-name-display {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #e7f3ff;
+            border-radius: 10px;
+            color: var(--primary);
+            font-weight: 500;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .file-name-display.show {
+            display: block;
+        }
+
+        /* Method Selection */
+        .method-section {
+            margin: 2rem 0;
+        }
+
+        .method-title {
+            color: var(--primary);
             font-weight: 600;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .method-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+
+        .method-option {
+            position: relative;
+        }
+
+        .method-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .method-label {
+            display: block;
+            padding: 1.5rem 1rem;
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .method-option input[type="radio"]:checked + .method-label {
+            background: var(--gradient);
+            color: white;
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(103, 126, 234, 0.3);
+        }
+
+        .method-label:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .method-icon {
+            font-size: 2rem;
+            display: block;
             margin-bottom: 0.5rem;
         }
 
-        .file-drop-zone p {
-            color: #666;
-            margin-bottom: 1.5rem;
-        }
-
-        .file-input-label {
-            background: var(--gradient);
-            color: white;
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-block;
-            font-weight: 500;
-            box-shadow: 0 4px 15px rgba(103, 126, 234, 0.4);
-        }
-
-        .file-input-label:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(103, 126, 234, 0.6);
-        }
-
-        .selected-file {
-            margin-top: 1.5rem;
-            padding: 1rem;
-            background: rgba(32, 201, 151, 0.1);
-            border-radius: 10px;
-            border-left: 4px solid var(--success);
-            display: none;
-        }
-
-        .selected-file.show {
-            display: block;
-            animation: slideInUp 0.3s ease-out;
-        }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Buttons */
-        .btn-gradient {
+        /* Submit Button */
+        .btn-submit {
             background: var(--gradient);
             color: white;
             border: none;
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
+            padding: 1.2rem 3rem;
+            font-size: 1.2rem;
             font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(103, 126, 234, 0.4);
+            box-shadow: 0 8px 25px rgba(103, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
         }
 
-        .btn-gradient:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(103, 126, 234, 0.6);
-            color: white;
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: all 0.6s ease;
         }
 
-        .btn-gradient:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
+        .btn-submit:hover::before {
+            width: 400px;
+            height: 400px;
         }
 
-        /* Loading Animation */
-        .loader-container {
+        .btn-submit:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(103, 126, 234, 0.4);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .btn-submit span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
             display: none;
-            text-align: center;
-            padding: 3rem 0;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
         }
 
-        .loader-container.show {
-            display: block;
+        .loading-overlay.show {
+            display: flex;
         }
 
-        .loader {
+        .spinner {
             width: 80px;
             height: 80px;
-            border: 8px solid rgba(103, 126, 234, 0.1);
-            border-top: 8px solid var(--primary);
+            border: 8px solid rgba(255, 255, 255, 0.2);
+            border-top-color: white;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 1.5rem;
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            to { transform: rotate(360deg); }
         }
 
-        /* Results Section */
-        .results-section {
-            display: none;
-            animation: fadeIn 0.5s ease-out;
+        /* Summary Cards */
+        .summary-section {
+            margin: 3rem 0;
         }
 
-        .results-section.show {
-            display: block;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
+        .summary-card {
             background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
-            border-top: 4px solid var(--primary);
+            position: relative;
+            overflow: hidden;
         }
 
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .stat-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
+        .summary-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
             background: var(--gradient);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .summary-icon {
+            font-size: 3rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 1rem;
         }
 
-        .stat-value {
-            font-size: 2rem;
+        .summary-value {
+            font-size: 2.5rem;
             font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
+            color: var(--dark);
+            margin: 0.5rem 0;
         }
 
-        .stat-label {
+        .summary-label {
             color: #666;
-            font-size: 0.9rem;
+            font-size: 1rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
         }
 
-        /* Table Styles */
+        /* Table Styling */
         .table-container {
             background: white;
-            border-radius: 15px;
+            border-radius: 20px;
             padding: 2rem;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin: 2rem 0;
         }
 
-        table.dataTable {
+        .table-container h3 {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .table {
             border-radius: 10px;
             overflow: hidden;
         }
 
-        table.dataTable thead {
+        .table thead {
             background: var(--gradient);
             color: white;
         }
 
-        table.dataTable thead th {
-            border: none;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 0.5px;
-        }
-
-        table.dataTable tbody tr {
+        .table tbody tr {
             transition: all 0.2s ease;
         }
 
-        table.dataTable tbody tr:hover {
-            background-color: rgba(103, 126, 234, 0.05);
+        .table tbody tr:hover {
+            background: #f8f9fa;
             transform: scale(1.01);
         }
 
-        /* Chart Container */
-        .chart-container {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
-        }
-
-        .chart-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        @media (max-width: 768px) {
-            .chart-row {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Action Buttons */
-        .action-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 2rem;
-        }
-
+        /* Download Button */
         .btn-download {
-            background: var(--success);
+            background: var(--gradient-alt);
             color: white;
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
             font-weight: 600;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
+            border-radius: 50px;
+            cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(32, 201, 151, 0.4);
+            box-shadow: 0 8px 25px rgba(245, 87, 108, 0.3);
+            text-decoration: none;
+            display: inline-block;
         }
 
         .btn-download:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(32, 201, 151, 0.6);
+            box-shadow: 0 12px 35px rgba(245, 87, 108, 0.4);
             color: white;
         }
 
-        .btn-reset {
-            background: var(--danger);
-            color: white;
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
-            border: none;
+        /* Chart Section */
+        .chart-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin: 2rem 0;
+        }
+
+        .chart-section h3 {
+            color: var(--primary);
             font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
-        }
-
-        .btn-reset:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.6);
-        }
-
-        /* Footer */
-        .footer {
-            background: rgba(0, 0, 0, 0.2);
-            color: white;
+            margin-bottom: 2rem;
             text-align: center;
-            padding: 2rem 0;
-            margin-top: 4rem;
         }
 
-        .footer p {
-            margin: 0;
-            opacity: 0.9;
+        .chart-wrapper {
+            background: linear-gradient(145deg, #f8f9fa, #ffffff);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chart-wrapper:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(103, 126, 234, 0.15);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .step-card {
+                padding: 1rem;
+            }
+
+            .step-number {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .method-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-submit {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+
+            .summary-value {
+                font-size: 2rem;
+            }
+
+            .card-header-custom h2 {
+                font-size: 1.5rem;
+            }
         }
 
         /* Animations */
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes fadeInDown {
             from {
                 opacity: 0;
-                transform: translateY(-30px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
             }
         }
 
@@ -568,30 +630,17 @@
             }
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2rem;
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
             }
-
-            .hero-subtitle {
-                font-size: 1rem;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .step-card {
-                flex-direction: column;
-            }
-
-            .step-number {
-                margin-bottom: 1rem;
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
-        /* Additional Enhancements */
         .animate-on-scroll {
             opacity: 0;
             transform: translateY(30px);
@@ -603,59 +652,33 @@
             transform: translateY(0);
         }
 
-        .badge-format {
-            background: var(--gradient);
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .progress-bar-custom {
-            height: 8px;
-            border-radius: 10px;
-            background: rgba(103, 126, 234, 0.2);
-            overflow: hidden;
-            margin: 1rem 0;
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            background: var(--gradient);
-            border-radius: 10px;
-            transition: width 1s ease;
-        }
-
-        /* Tooltip Enhancements */
-        [data-bs-toggle="tooltip"] {
-            cursor: help;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
+        /* Footer */
+        .footer {
             background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: var(--gradient);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        .footer p {
+            margin: 0;
+            opacity: 0.9;
         }
     </style>
 </head>
 <body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="text-center">
+            <div class="spinner"></div>
+            <p class="text-white mt-3 fs-5">Nettoyage en cours...</p>
+        </div>
+    </div>
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container">
             <a class="navbar-brand" href="{% url 'index' %}">
                 <i class="bi bi-stars"></i> Data Cleaner Pro
@@ -666,14 +689,16 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'index' %}">
-                            <i class="bi bi-house-door"></i> Accueil
-                        </a>
+                        <a class="nav-link" href="{% url 'index' %}">Acceuil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#guide">
-                            <i class="bi bi-book"></i> Guide
-                        </a>
+                        <a class="nav-link" href="#guide">Guide</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#upload">Upload</a>
+                    </li>
+                    <li class="nav-item" id="resultsNavItem" style="display: none;">
+                        <a class="nav-link" href="#results">Résultats</a>
                     </li>
                 </ul>
             </div>
@@ -684,132 +709,203 @@
     <div class="hero-section">
         <div class="container">
             <h1 class="hero-title">
-                <i class="bi bi-magic"></i> Data Cleaner Pro
+                <i class="bi bi-magic"></i> Nettoyage Intelligent de Données
             </h1>
             <p class="hero-subtitle">
-                Nettoyez vos données en quelques clics avec l'intelligence artificielle
+                Transformez vos données brutes en données propres et exploitables en quelques clics
             </p>
         </div>
     </div>
 
-    <!-- Guide Section -->
-    <div class="container" id="guide">
-        <div class="guide-section animate-on-scroll">
-            <h3 class="text-white text-center mb-4">
+    <div class="container pb-5">
+        <!-- Guide Section -->
+        <div class="guide-section" id="guide">
+            <h2 class="text-white text-center mb-4">
                 <i class="bi bi-lightbulb"></i> Comment ça marche ?
-            </h3>
+            </h2>
+            
             <div class="row">
-                <div class="col-md-4">
-                    <div class="step-card d-flex">
-                        <div class="step-number">1</div>
-                        <div class="step-content">
-                            <h5><i class="bi bi-file-earmark-arrow-up"></i> Téléversez</h5>
-                            <p>Importez votre fichier de données (CSV, Excel, JSON, XML)</p>
+                <div class="col-md-4 mb-3">
+                    <div class="step-card">
+                        <div class="d-flex align-items-center">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h5><i class="bi bi-file-earmark-arrow-up"></i> Importez votre fichier</h5>
+                                <p>Glissez-déposez ou sélectionnez votre fichier de données (CSV, Excel, JSON, XML)</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="step-card d-flex">
-                        <div class="step-number">2</div>
-                        <div class="step-content">
-                            <h5><i class="bi bi-gear"></i> Nettoyez</h5>
-                            <p>Notre IA détecte et corrige automatiquement les erreurs</p>
+
+                <div class="col-md-4 mb-3">
+                    <div class="step-card">
+                        <div class="d-flex align-items-center">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h5><i class="bi bi-sliders"></i> Choisissez la méthode</h5>
+                                <p>Sélectionnez comment traiter les valeurs aberrantes dans vos données</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="step-card d-flex">
-                        <div class="step-number">3</div>
-                        <div class="step-content">
-                            <h5><i class="bi bi-download"></i> Téléchargez</h5>
-                            <p>Récupérez vos données propres et prêtes à l'emploi</p>
+
+                <div class="col-md-4 mb-3">
+                    <div class="step-card">
+                        <div class="d-flex align-items-center">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h5><i class="bi bi-download"></i> Téléchargez</h5>
+                                <p>Obtenez vos données nettoyées avec statistiques et graphiques détaillés</p>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <p class="text-white mb-2">
+                    <i class="bi bi-check-circle"></i> Suppression automatique des doublons
+                </p>
+                <p class="text-white mb-2">
+                    <i class="bi bi-check-circle"></i> Traitement intelligent des valeurs manquantes
+                </p>
+                <p class="text-white mb-0">
+                    <i class="bi bi-check-circle"></i> Détection et correction des valeurs aberrantes
+                </p>
             </div>
         </div>
-    </div>
 
-    <!-- Main Upload Card -->
-    <div class="container">
-        <div class="main-card animate-on-scroll">
+        <!-- Upload Section -->
+        <div class="main-card animate-on-scroll" id="upload">
             <div class="card-header-custom">
-                <h2><i class="bi bi-cloud-upload"></i> Téléverser vos données</h2>
-                <p>Formats acceptés : CSV, TXT, Excel, JSON, XML</p>
+                <h2><i class="bi bi-cloud-upload"></i> Importez vos données</h2>
+                <p>Formats supportés : CSV, TXT, Excel (.xls, .xlsx), JSON, XML</p>
             </div>
+
             <div class="card-body p-4">
-                <form id="uploadForm" method="POST" enctype="multipart/form-data">
+                <form method="POST" id="uploadForm">
                     {% csrf_token %}
                     
                     <!-- File Drop Zone -->
                     <div class="file-drop-zone" id="dropZone">
-                        <i class="bi bi-cloud-arrow-up"></i>
-                        <h4>Glissez-déposez votre fichier ici</h4>
-                        <p class="text-muted">ou cliquez pour parcourir</p>
-                        <label for="datafile" class="file-input-label">
-                            <i class="bi bi-folder2-open"></i> Choisir un fichier
-                        </label>
-                        <input type="file" name="datafile" id="datafile" class="d-none" required>
+                        <input type="file" name="datafile" id="datafile" required>
+                        <div class="file-info">
+                            <div class="upload-icon">
+                                <i class="bi bi-cloud-arrow-up"></i>
+                            </div>
+                            <h4>Glissez-déposez votre fichier ici</h4>
+                            <p class="text-muted">ou cliquez pour sélectionner</p>
+                            <small class="text-muted">
+                                <i class="bi bi-info-circle"></i> Taille maximale : 50 MB
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="file-name-display" id="fileNameDisplay">
+                        <i class="bi bi-file-earmark-check"></i>
+                        <span id="fileName"></span>
+                    </div>
+
+                    <!-- Method Selection -->
+                    <div class="method-section">
+                        <h4 class="method-title">
+                            <i class="bi bi-gear"></i> Méthode de traitement des valeurs aberrantes
+                        </h4>
                         
-                        <div class="selected-file" id="selectedFile">
-                            <i class="bi bi-check-circle text-success"></i>
-                            <strong>Fichier sélectionné :</strong>
-                            <span id="fileName"></span>
-                            <span class="badge-format" id="fileFormat"></span>
+                        <div class="method-grid">
+                            <div class="method-option">
+                                <input type="radio" name="outlier_method" id="iqr" value="iqr" checked>
+                                <label class="method-label" for="iqr">
+                                    <span class="method-icon">📊</span>
+                                    <strong>Winsorisation</strong>
+                                    <small class="d-block text-muted mt-2">Limite les valeurs extrêmes (IQR)</small>
+                                </label>
+                            </div>
+
+                            <div class="method-option">
+                                <input type="radio" name="outlier_method" id="median" value="median">
+                                <label class="method-label" for="median">
+                                    <span class="method-icon">📈</span>
+                                    <strong>Médiane</strong>
+                                    <small class="d-block text-muted mt-2">Remplace par la médiane</small>
+                                </label>
+                            </div>
+
+                            <div class="method-option">
+                                <input type="radio" name="outlier_method" id="log" value="log">
+                                <label class="method-label" for="log">
+                                    <span class="method-icon">📉</span>
+                                    <strong>Logarithmique</strong>
+                                    <small class="d-block text-muted mt-2">Transformation log</small>
+                                </label>
+                            </div>
+
+                            <div class="method-option">
+                                <input type="radio" name="outlier_method" id="delete" value="delete">
+                                <label class="method-label" for="delete">
+                                    <span class="method-icon">🗑️</span>
+                                    <strong>Suppression</strong>
+                                    <small class="d-block text-muted mt-2">Supprime les lignes</small>
+                                </label>
+                            </div>
+
+                            <div class="method-option">
+                                <input type="radio" name="outlier_method" id="none" value="none">
+                                <label class="method-label" for="none">
+                                    <span class="method-icon">⏭️</span>
+                                    <strong>Aucune action</strong>
+                                    <small class="d-block text-muted mt-2">Conserver les valeurs</small>
+                                </label>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Submit Button -->
                     <div class="text-center mt-4">
-                        <button type="submit" class="btn btn-gradient btn-lg" id="submitBtn">
-                            <i class="bi bi-rocket-takeoff"></i> Nettoyer mes données
+                        <button type="submit" class="btn-submit">
+                            <span><i class="bi bi-rocket-takeoff"></i> Nettoyer mes données</span>
                         </button>
                     </div>
                 </form>
+            </div>
+        </div>
 
-                <!-- Loading Animation -->
-                <div class="loader-container" id="loaderContainer">
-                    <div class="loader"></div>
-                    <h4 class="text-primary"><i class="bi bi-hourglass-split"></i> Nettoyage en cours...</h4>
-                    <p class="text-muted">Veuillez patienter pendant que nous analysons vos données</p>
-                    <div class="progress-bar-custom">
-                        <div class="progress-bar-fill" id="progressBar" style="width: 0%"></div>
-                    </div>
+        <!-- Results Section -->
+        <div id="results" style="display: none;">
+            <!-- Summary Cards -->
+            <div class="summary-section animate-on-scroll">
+                <h2 class="text-white text-center mb-4">
+                    <i class="bi bi-graph-up"></i> Résumé des données nettoyées
+                </h2>
+                
+                <div class="row g-4" id="summaryCards">
+                    <!-- Les cartes seront insérées ici par JavaScript -->
+                </div>
+            </div>
+
+            <!-- Data Table -->
+            <div class="table-container animate-on-scroll">
+                <h3><i class="bi bi-table"></i> Aperçu des données nettoyées</h3>
+                
+                <div class="table-responsive">
+                    <table id="dataTable" class="table table-hover">
+                        <!-- Contenu inséré par JavaScript -->
+                    </table>
                 </div>
 
-                <!-- Results Section -->
-                <div class="results-section" id="resultsSection">
-                    <!-- Statistics -->
-                    <div class="stats-grid" id="statsGrid">
-                        <!-- Statistiques seront insérées ici via JS -->
-                    </div>
+                <div class="text-center mt-4">
+                    <a href="{% url 'download_cleaned' %}" class="btn-download">
+                        <i class="bi bi-download"></i> Télécharger le fichier nettoyé
+                    </a>
+                </div>
+            </div>
 
-                    <!-- Data Table -->
-                    <div class="table-container">
-                        <h4 class="mb-3">
-                            <i class="bi bi-table"></i> Données nettoyées
-                        </h4>
-                        <div class="table-responsive">
-                            <table id="cleanedTable" class="table table-striped table-hover" style="width:100%">
-                                <!-- Contenu du tableau inséré via JS -->
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- Charts Section -->
-                    <div id="chartsSection">
-                        <!-- Les graphiques seront insérés ici via JS -->
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div class="action-buttons">
-                        <a href="{% url 'download_cleaned' %}" class="btn-download" id="downloadBtn">
-                            <i class="bi bi-download"></i> Télécharger le fichier nettoyé
-                        </a>
-                        <button type="button" class="btn-reset" onclick="resetForm()">
-                            <i class="bi bi-arrow-clockwise"></i> Nouveau nettoyage
-                        </button>
-                    </div>
+            <!-- Charts Section -->
+            <div class="chart-section animate-on-scroll" id="chartsSection" style="display: none;">
+                <h3><i class="bi bi-bar-chart"></i> Statistiques visuelles</h3>
+                
+                <div class="row g-4" id="chartsContainer">
+                    <!-- Les graphiques seront insérés ici par JavaScript -->
                 </div>
             </div>
         </div>
@@ -818,13 +914,13 @@
     <!-- Footer -->
     <div class="footer">
         <div class="container">
-            <p>&copy; 2026 Data Cleaner Pro - Propulsé par l'Intelligence Artificielle</p>
+            <p><i class="bi bi-heart-fill text-danger"></i> Data Cleaner Pro - Propulsé par l'IA © 2024</p>
         </div>
     </div>
 
     <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -847,206 +943,436 @@
         }
         const csrftoken = getCookie('csrftoken');
 
-        // Variables globales
-        let cleanedData = null;
+        $(document).ready(function() {
+            // Variables globales
+            let cleanedData = null;
+            let cleanedStats = null;
 
-        // File Drop Zone
-        const dropZone = document.getElementById('dropZone');
-        const fileInput = document.getElementById('datafile');
-        const selectedFile = document.getElementById('selectedFile');
-        const fileName = document.getElementById('fileName');
-        const fileFormat = document.getElementById('fileFormat');
+            // File upload handling
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('datafile');
+            const fileNameDisplay = document.getElementById('fileNameDisplay');
+            const fileName = document.getElementById('fileName');
+            const uploadForm = document.getElementById('uploadForm');
+            const loadingOverlay = document.getElementById('loadingOverlay');
 
-        // Drag & Drop
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('drag-over');
-        });
+            // File selection
+            fileInput.addEventListener('change', function(e) {
+                if (this.files && this.files[0]) {
+                    fileName.textContent = this.files[0].name;
+                    fileNameDisplay.classList.add('show');
+                }
+            });
 
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('drag-over');
-        });
+            // Drag and drop
+            dropZone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.classList.add('dragover');
+            });
 
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('drag-over');
-            
-            if (e.dataTransfer.files.length) {
-                fileInput.files = e.dataTransfer.files;
-                updateFileInfo(e.dataTransfer.files[0]);
-            }
-        });
+            dropZone.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.classList.remove('dragover');
+            });
 
-        // File input change
-        fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length) {
-                updateFileInfo(e.target.files[0]);
-            }
-        });
+            dropZone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.classList.remove('dragover');
+                
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    fileInput.files = files;
+                    fileName.textContent = files[0].name;
+                    fileNameDisplay.classList.add('show');
+                }
+            });
 
-        function updateFileInfo(file) {
-            fileName.textContent = file.name;
-            const extension = file.name.split('.').pop().toUpperCase();
-            fileFormat.textContent = extension;
-            selectedFile.classList.add('show');
-        }
+            // Form submission avec AJAX
+            uploadForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                loadingOverlay.classList.add('show');
 
-        // Form submission
-        document.getElementById('uploadForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Reset previous results
-            document.getElementById('resultsSection').classList.remove('show');
-            
-            // Show loader
-            document.getElementById('loaderContainer').classList.add('show');
-            document.getElementById('submitBtn').disabled = true;
-            
-            // Animate progress bar
-            let progress = 0;
-            const progressBar = document.getElementById('progressBar');
-            const progressInterval = setInterval(() => {
-                progress += Math.random() * 15;
-                if (progress > 90) progress = 90;
-                progressBar.style.width = progress + '%';
-            }, 200);
+                const formData = new FormData(this);
 
-            const formData = new FormData(this);
-
-            $.ajax({
-                url: "{% url 'upload_file' %}",
-                type: "POST",
-                data: formData,
-                processData: false,
-                contentType: false,
-                headers: {
-                    'X-CSRFToken': csrftoken
-                },
-                success: function(data) {
-                    clearInterval(progressInterval);
-                    progressBar.style.width = '100%';
-                    
-                    setTimeout(() => {
-                        document.getElementById('loaderContainer').classList.remove('show');
-                        document.getElementById('submitBtn').disabled = false;
+                $.ajax({
+                    url: "{% url 'upload_file' %}",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    headers: {
+                        'X-CSRFToken': csrftoken
+                    },
+                    success: function(response) {
+                        loadingOverlay.classList.remove('show');
                         
-                        if (data && data.length > 0) {
-                            cleanedData = data;
-                            displayResults(data);
+                        if (response && response.data && response.data.length > 0) {
+                            cleanedData = response.data;
+                            cleanedStats = response.stats || {};
+                            displayResults(response);
+                            
+                            // Afficher l'item de navigation "Résultats"
+                            document.getElementById('resultsNavItem').style.display = 'block';
+                            
+                            // Scroller vers les résultats
+                            setTimeout(() => {
+                                document.getElementById('results').scrollIntoView({ 
+                                    behavior: 'smooth', 
+                                    block: 'start' 
+                                });
+                            }, 300);
                         } else {
                             alert("Aucune donnée nettoyée disponible !");
                         }
-                    }, 500);
-                },
-                error: function(xhr) {
-                    clearInterval(progressInterval);
-                    document.getElementById('loaderContainer').classList.remove('show');
-                    document.getElementById('submitBtn').disabled = false;
-                    
-                    let errorMsg = "Erreur lors du nettoyage du fichier !";
-                    if (xhr.responseJSON && xhr.responseJSON.error) {
-                        errorMsg = xhr.responseJSON.error;
+                    },
+                    error: function(xhr) {
+                        loadingOverlay.classList.remove('show');
+                        
+                        let errorMsg = "Erreur lors du nettoyage du fichier !";
+                        if (xhr.responseJSON && xhr.responseJSON.error) {
+                            errorMsg = xhr.responseJSON.error;
+                        }
+                        alert(errorMsg);
                     }
-                    alert(errorMsg);
+                });
+            });
+
+            function displayResults(response) {
+                const data = response.data;
+                const stats = response.stats || {};
+                
+                // Afficher la section des résultats
+                document.getElementById('results').style.display = 'block';
+                
+                // Afficher les cartes de résumé
+                displaySummaryCards(data, stats);
+                
+                // Afficher le tableau
+                displayDataTable(data);
+                
+                // Afficher les graphiques (si stats disponibles)
+                if (Object.keys(stats).length > 0) {
+                    displayCharts(stats);
                 }
-            });
-        });
-
-        function displayResults(data) {
-            // Display statistics
-            displayStatistics(data);
-            
-            // Display table
-            displayDataTable(data);
-            
-            // Show results section
-            document.getElementById('resultsSection').classList.add('show');
-            
-            // Scroll to results
-            document.getElementById('resultsSection').scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start' 
-            });
-        }
-
-        function displayStatistics(data) {
-            const statsGrid = document.getElementById('statsGrid');
-            statsGrid.innerHTML = '';
-            
-            const stats = [
-                {
-                    icon: 'bi-file-earmark-text',
-                    value: data.length,
-                    label: 'Lignes nettoyées',
-                    color: '--primary'
-                },
-                {
-                    icon: 'bi-columns',
-                    value: Object.keys(data[0] || {}).length,
-                    label: 'Colonnes',
-                    color: '--success'
-                },
-                {
-                    icon: 'bi-check-circle',
-                    value: '100%',
-                    label: 'Qualité',
-                    color: '--info'
-                }
-            ];
-            
-            stats.forEach(stat => {
-                statsGrid.innerHTML += `
-                    <div class="stat-card animate-on-scroll">
-                        <div class="stat-icon">
-                            <i class="${stat.icon}"></i>
-                        </div>
-                        <div class="stat-value">${stat.value}</div>
-                        <div class="stat-label">${stat.label}</div>
-                    </div>
-                `;
-            });
-        }
-
-        function displayDataTable(data) {
-            if ($.fn.DataTable.isDataTable('#cleanedTable')) {
-                $('#cleanedTable').DataTable().destroy();
             }
-            
-            const columns = Object.keys(data[0]).map(col => ({
-                title: col,
-                data: col
-            }));
-            
-            $('#cleanedTable').DataTable({
-                data: data,
-                columns: columns,
-                responsive: true,
-                pageLength: 10,
-                language: {
-                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json'
-                },
-                dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
-                     '<"row"<"col-sm-12"tr>>' +
-                     '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
-                drawCallback: function() {
-                    $('.animate-on-scroll').each(function() {
-                        $(this).addClass('visible');
+
+            function displaySummaryCards(data, stats) {
+                const summaryCards = document.getElementById('summaryCards');
+                const numRows = data.length;
+                const numCols = Object.keys(data[0] || {}).length;
+                
+                // Calculer le nombre de valeurs manquantes et doublons
+                let totalMissing = 0;
+                let totalDuplicates = 0;
+                
+                if (stats) {
+                    Object.values(stats).forEach(colStat => {
+                        if (colStat.missing !== undefined) totalMissing += colStat.missing;
+                        if (colStat.duplicates !== undefined) totalDuplicates += colStat.duplicates;
                     });
                 }
-            });
-        }
+                
+                summaryCards.innerHTML = `
+                    <div class="col-md-3 col-sm-6">
+                        <div class="summary-card">
+                            <div class="summary-icon">
+                                <i class="bi bi-table"></i>
+                            </div>
+                            <div class="summary-value">${numRows}</div>
+                            <div class="summary-label">Lignes</div>
+                        </div>
+                    </div>
 
-        function resetForm() {
-            document.getElementById('uploadForm').reset();
-            document.getElementById('selectedFile').classList.remove('show');
-            document.getElementById('resultsSection').classList.remove('show');
-            document.getElementById('progressBar').style.width = '0%';
-            
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+                    <div class="col-md-3 col-sm-6">
+                        <div class="summary-card">
+                            <div class="summary-icon">
+                                <i class="bi bi-columns"></i>
+                            </div>
+                            <div class="summary-value">${numCols}</div>
+                            <div class="summary-label">Colonnes</div>
+                        </div>
+                    </div>
 
-        // Animate on scroll
-        document.addEventListener('DOMContentLoaded', function() {
+                    <div class="col-md-3 col-sm-6">
+                        <div class="summary-card">
+                            <div class="summary-icon">
+                                <i class="bi bi-exclamation-triangle"></i>
+                            </div>
+                            <div class="summary-value">${totalMissing}</div>
+                            <div class="summary-label">Val. Manquantes</div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6">
+                        <div class="summary-card">
+                            <div class="summary-icon">
+                                <i class="bi bi-files"></i>
+                            </div>
+                            <div class="summary-value">${totalDuplicates}</div>
+                            <div class="summary-label">Doublons</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            function displayDataTable(data) {
+                if ($.fn.DataTable.isDataTable('#dataTable')) {
+                    $('#dataTable').DataTable().destroy();
+                }
+                
+                const columns = Object.keys(data[0]).map(col => ({
+                    title: col,
+                    data: col
+                }));
+                
+                $('#dataTable').DataTable({
+                    data: data,
+                    columns: columns,
+                    pageLength: 10,
+                    language: {
+                        search: "_INPUT_",
+                        searchPlaceholder: "Rechercher...",
+                        lengthMenu: "Afficher _MENU_ lignes",
+                        info: "Affichage de _START_ à _END_ sur _TOTAL_ lignes",
+                        infoEmpty: "Aucune ligne à afficher",
+                        infoFiltered: "(filtré sur _MAX_ lignes)",
+                        paginate: {
+                            first: "Premier",
+                            last: "Dernier",
+                            next: "Suivant",
+                            previous: "Précédent"
+                        }
+                    },
+                    responsive: true
+                });
+            }
+
+            function displayCharts(stats) {
+                const chartsSection = document.getElementById('chartsSection');
+                const chartsContainer = document.getElementById('chartsContainer');
+                
+                chartsContainer.innerHTML = '';
+                let hasNumericData = false;
+                
+                const chartColors = [
+                    'rgba(103, 126, 234, 0.8)',
+                    'rgba(118, 75, 162, 0.8)',
+                    'rgba(32, 201, 151, 0.8)',
+                    'rgba(255, 193, 7, 0.8)',
+                    'rgba(220, 53, 69, 0.8)'
+                ];
+
+                const chartColorsBorder = [
+                    'rgba(103, 126, 234, 1)',
+                    'rgba(118, 75, 162, 1)',
+                    'rgba(32, 201, 151, 1)',
+                    'rgba(255, 193, 7, 1)',
+                    'rgba(220, 53, 69, 1)'
+                ];
+                
+                let chartIndex = 0;
+                
+                Object.entries(stats).forEach(([col, colStats]) => {
+                    if (colStats.mean !== undefined) {
+                        hasNumericData = true;
+                        
+                        // Créer un ID unique pour chaque graphique
+                        const barChartId = `chart-bar-${chartIndex}`;
+                        const pieChartId = `chart-pie-${chartIndex}`;
+                        
+                        // Ajouter les conteneurs des graphiques
+                        chartsContainer.innerHTML += `
+                            <div class="col-lg-6">
+                                <div class="chart-wrapper p-3">
+                                    <canvas id="${barChartId}"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="chart-wrapper p-3">
+                                    <canvas id="${pieChartId}"></canvas>
+                                </div>
+                            </div>
+                        `;
+                        
+                        // Attendre que les éléments soient dans le DOM
+                        setTimeout(() => {
+                            // Graphique en barres
+                            new Chart(document.getElementById(barChartId), {
+                                type: 'bar',
+                                data: {
+                                    labels: ['Moyenne', 'Médiane', 'Min', 'Max', 'Écart-type'],
+                                    datasets: [{
+                                        label: col,
+                                        data: [
+                                            colStats.mean,
+                                            colStats.median,
+                                            colStats.min,
+                                            colStats.max,
+                                            colStats.std
+                                        ],
+                                        backgroundColor: chartColors,
+                                        borderColor: chartColorsBorder,
+                                        borderWidth: 2,
+                                        borderRadius: 10
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: true,
+                                    plugins: {
+                                        legend: {
+                                            display: false
+                                        },
+                                        title: {
+                                            display: true,
+                                            text: `📊 ${col} - Vue en barres`,
+                                            font: {
+                                                size: 16,
+                                                weight: 'bold'
+                                            },
+                                            color: '#6f42c1'
+                                        },
+                                        tooltip: {
+                                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                            padding: 12,
+                                            borderColor: '#6f42c1',
+                                            borderWidth: 2,
+                                            titleFont: {
+                                                size: 14
+                                            },
+                                            bodyFont: {
+                                                size: 13
+                                            },
+                                            callbacks: {
+                                                label: function(context) {
+                                                    return context.label + ': ' + context.parsed.y.toFixed(2);
+                                                }
+                                            }
+                                        }
+                                    },
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true,
+                                            grid: {
+                                                color: 'rgba(0, 0, 0, 0.05)'
+                                            },
+                                            ticks: {
+                                                font: {
+                                                    size: 12
+                                                }
+                                            }
+                                        },
+                                        x: {
+                                            grid: {
+                                                display: false
+                                            },
+                                            ticks: {
+                                                font: {
+                                                    size: 11
+                                                }
+                                            }
+                                        }
+                                    },
+                                    animation: {
+                                        duration: 1500,
+                                        easing: 'easeInOutQuart'
+                                    }
+                                }
+                            });
+
+                            // Graphique en camembert (pie chart)
+                            new Chart(document.getElementById(pieChartId), {
+                                type: 'doughnut',
+                                data: {
+                                    labels: ['Moyenne', 'Médiane', 'Min', 'Max', 'Écart-type'],
+                                    datasets: [{
+                                        label: col,
+                                        data: [
+                                            Math.abs(colStats.mean),
+                                            Math.abs(colStats.median),
+                                            Math.abs(colStats.min),
+                                            Math.abs(colStats.max),
+                                            Math.abs(colStats.std)
+                                        ],
+                                        backgroundColor: chartColors,
+                                        borderColor: '#ffffff',
+                                        borderWidth: 3,
+                                        hoverOffset: 15
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: true,
+                                    plugins: {
+                                        legend: {
+                                            display: true,
+                                            position: 'bottom',
+                                            labels: {
+                                                padding: 15,
+                                                font: {
+                                                    size: 12
+                                                },
+                                                usePointStyle: true,
+                                                pointStyle: 'circle'
+                                            }
+                                        },
+                                        title: {
+                                            display: true,
+                                            text: `🥧 ${col} - Répartition`,
+                                            font: {
+                                                size: 16,
+                                                weight: 'bold'
+                                            },
+                                            color: '#6f42c1',
+                                            padding: {
+                                                bottom: 20
+                                            }
+                                        },
+                                        tooltip: {
+                                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                            padding: 12,
+                                            borderColor: '#6f42c1',
+                                            borderWidth: 2,
+                                            titleFont: {
+                                                size: 14
+                                            },
+                                            bodyFont: {
+                                                size: 13
+                                            },
+                                            callbacks: {
+                                                label: function(context) {
+                                                    const label = context.label || '';
+                                                    const value = context.parsed;
+                                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                                    const percentage = ((value / total) * 100).toFixed(1);
+                                                    return label + ': ' + value.toFixed(2) + ' (' + percentage + '%)';
+                                                }
+                                            }
+                                        }
+                                    },
+                                    animation: {
+                                        animateRotate: true,
+                                        animateScale: true,
+                                        duration: 2000,
+                                        easing: 'easeInOutQuart'
+                                    }
+                                }
+                            });
+                        }, 100);
+                        
+                        chartIndex++;
+                    }
+                });
+                
+                if (hasNumericData) {
+                    chartsSection.style.display = 'block';
+                }
+            }
+
+            // Scroll animations
             const observerOptions = {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'
@@ -1076,12 +1402,6 @@
                         });
                     }
                 });
-            });
-
-            // Initialize tooltips
-            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-            tooltipTriggerList.map(function (tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl);
             });
         });
     </script>
