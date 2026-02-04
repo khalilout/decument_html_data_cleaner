@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Cleaner Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</head>
+<body class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 min-h-screen flex flex-col items-center justify-center animate__animated animate__fadeIn">
+
+    <!-- Upload Card -->
+    <div class="bg-white shadow-2xl rounded-xl p-10 w-full max-w-3xl mb-10 animate__animated animate__zoomIn">
+        <h1 class="text-3xl font-bold text-center mb-6 text-indigo-600 animate__animated animate__pulse animate__infinite">
+            ✨ Data Cleaner Pro ✨
+        </h1>
+        <form id="uploadForm" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+            <div>
+                <label class="block text-gray-700 font-semibold mb-2">Choisir un fichier</label>
+                <input type="file" name="datafile" 
+                       class="block w-full text-sm text-gray-500 
+                              file:mr-4 file:py-2 file:px-4
+                              file:rounded-full file:border-0
+                              file:text-sm file:font-semibold
+                              file:bg-indigo-50 file:text-indigo-700
+                              hover:file:bg-indigo-100
+                              transition duration-300 ease-in-out transform hover:scale-105" required>
+            </div>
+            <button type="submit" 
+                    class="w-full py-3 bg-indigo-600 text-white font-bold rounded-lg shadow-lg 
+                           hover:bg-indigo-700 hover:scale-105 transition transform duration-300 ease-in-out">
+                🚀 Nettoyer et afficher
+            </button>
+        </form>
+        <div id="loader" class="hidden text-center mt-6">
+            <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_usmfx6bp.json"
+                background="transparent" speed="1" style="width: 150px; height: 150px;" loop autoplay>
+            </lottie-player>
+            <p class="text-indigo-600 font-semibold mt-2">Nettoyage en cours...</p>
+        </div>
+    </div>
+
+    <!-- Tableau nettoyé -->
+    <div id="resultSection" class="bg-white shadow-lg rounded-xl p-6 w-full max-w-5xl animate__animated animate__fadeInRight mb-10 hidden">
+        <h2 class="text-xl font-bold mb-4 text-gray-700">✅ Données nettoyées</h2>
+        <table id="cleanTable" class="display w-full"></table>
+        <a href="{% url 'download_cleaned' %}" 
+           class="mt-4 inline-block px-6 py-3 bg-green-600 text-white rounded-lg shadow-lg hover:bg-green-700">
+            ⬇️ Télécharger le fichier nettoyé
+        </a>
+    </div>
+
+    <script>
+        // Récupérer le token CSRF
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+
+        $('#uploadForm').on('submit', function(e) {
+            e.preventDefault();
+            $('#loader').removeClass('hidden');
+            $('#resultSection').addClass('hidden');
+
+            let formData = new FormData(this);
+
+            $.ajax({
+                url: "{% url 'upload_file' %}",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRFToken': csrftoken
+                },
+                success: function(data) {
+                    $('#loader').addClass('hidden');
+                    $('#resultSection').removeClass('hidden');
+
+                    if (data.length === 0) {
+                        alert("Aucune donnée nettoyée disponible !");
+                        return;
+                    }
+
+                    let columns = Object.keys(data[0]).map(col => ({ title: col, data: col }));
+
+                    $('#cleanTable').DataTable({
+                        destroy: true,
+                        data: data,
+                        columns: columns,
+                        responsive: true,
+                        pageLength: 10
+                    });
+                },
+                error: function(xhr) {
+                    $('#loader').addClass('hidden');
+                    let errorMsg = "Erreur lors du nettoyage du fichier !";
+                    if (xhr.responseJSON && xhr.responseJSON.error) {
+                        errorMsg = xhr.responseJSON.error;
+                    }
+                    alert(errorMsg);
+                }
+            });
+        });
+    </script>
+
+</body>
+</html> 
