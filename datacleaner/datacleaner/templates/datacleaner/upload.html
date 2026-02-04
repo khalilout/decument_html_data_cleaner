@@ -3,57 +3,831 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Data Cleaner Pro</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Cleaner Pro - Nettoyage Intelligent de Données</title>
+    
+    <!-- Bootstrap & Librairies -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"/>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-</head>
-<body class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 min-h-screen flex flex-col items-center justify-center animate__animated animate__fadeIn">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Upload Card -->
-    <div class="bg-white shadow-2xl rounded-xl p-10 w-full max-w-3xl mb-10 animate__animated animate__zoomIn">
-        <h1 class="text-3xl font-bold text-center mb-6 text-indigo-600 animate__animated animate__pulse animate__infinite">
-            ✨ Data Cleaner Pro ✨
-        </h1>
-        <form id="uploadForm" enctype="multipart/form-data" class="space-y-6">
-            {% csrf_token %}
-            <div>
-                <label class="block text-gray-700 font-semibold mb-2">Choisir un fichier</label>
-                <input type="file" name="datafile" 
-                       class="block w-full text-sm text-gray-500 
-                              file:mr-4 file:py-2 file:px-4
-                              file:rounded-full file:border-0
-                              file:text-sm file:font-semibold
-                              file:bg-indigo-50 file:text-indigo-700
-                              hover:file:bg-indigo-100
-                              transition duration-300 ease-in-out transform hover:scale-105" required>
-            </div>
-            <button type="submit" 
-                    class="w-full py-3 bg-indigo-600 text-white font-bold rounded-lg shadow-lg 
-                           hover:bg-indigo-700 hover:scale-105 transition transform duration-300 ease-in-out">
-                🚀 Nettoyer et afficher
+    <style>
+        :root {
+            --primary: #6f42c1;
+            --secondary: #d63384;
+            --success: #20c997;
+            --info: #0dcaf0;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --dark: #212529;
+            --light: #f8f9fa;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-alt: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            padding: 4rem 0 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            animation: fadeInDown 1s ease-out, floatTitle 3s ease-in-out infinite;
+        }
+
+        @keyframes floatTitle {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        /* Guide Steps */
+        .guide-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        .step-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--gradient);
+            transition: width 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .step-card:hover::before {
+            width: 100%;
+            opacity: 0.1;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .step-content h5 {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-content p {
+            color: #666;
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        /* Main Card */
+        .main-card {
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .card-header-custom {
+            background: var(--gradient);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-header-custom::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .card-header-custom h2 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-header-custom p {
+            margin: 0.5rem 0 0;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* File Drop Zone */
+        .file-drop-zone {
+            border: 3px dashed #d0d0d0;
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            background: linear-gradient(145deg, #f8f9fa, #ffffff);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .file-drop-zone::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(103, 126, 234, 0.1);
+            transform: translate(-50%, -50%);
+            transition: all 0.6s ease;
+        }
+
+        .file-drop-zone:hover::before {
+            width: 500px;
+            height: 500px;
+        }
+
+        .file-drop-zone:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(111, 66, 193, 0.2);
+        }
+
+        .file-drop-zone.drag-over {
+            border-color: var(--success);
+            background: rgba(32, 201, 151, 0.05);
+        }
+
+        .file-drop-zone i {
+            font-size: 4rem;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 1rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .file-drop-zone h4 {
+            color: var(--dark);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .file-drop-zone p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .file-input-label {
+            background: var(--gradient);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(103, 126, 234, 0.4);
+        }
+
+        .file-input-label:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(103, 126, 234, 0.6);
+        }
+
+        .selected-file {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: rgba(32, 201, 151, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid var(--success);
+            display: none;
+        }
+
+        .selected-file.show {
+            display: block;
+            animation: slideInUp 0.3s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Buttons */
+        .btn-gradient {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(103, 126, 234, 0.4);
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(103, 126, 234, 0.6);
+            color: white;
+        }
+
+        .btn-gradient:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Loading Animation */
+        .loader-container {
+            display: none;
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .loader-container.show {
+            display: block;
+        }
+
+        .loader {
+            width: 80px;
+            height: 80px;
+            border: 8px solid rgba(103, 126, 234, 0.1);
+            border-top: 8px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1.5rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Results Section */
+        .results-section {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .results-section.show {
+            display: block;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-top: 4px solid var(--primary);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: var(--gradient);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Table Styles */
+        .table-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        table.dataTable {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        table.dataTable thead {
+            background: var(--gradient);
+            color: white;
+        }
+
+        table.dataTable thead th {
+            border: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        table.dataTable tbody tr {
+            transition: all 0.2s ease;
+        }
+
+        table.dataTable tbody tr:hover {
+            background-color: rgba(103, 126, 234, 0.05);
+            transform: scale(1.01);
+        }
+
+        /* Chart Container */
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .chart-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .chart-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn-download {
+            background: var(--success);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(32, 201, 151, 0.4);
+        }
+
+        .btn-download:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(32, 201, 151, 0.6);
+            color: white;
+        }
+
+        .btn-reset {
+            background: var(--danger);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            border: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+        }
+
+        .btn-reset:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.6);
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer p {
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .step-card {
+                flex-direction: column;
+            }
+
+            .step-number {
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* Additional Enhancements */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .badge-format {
+            background: var(--gradient);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .progress-bar-custom {
+            height: 8px;
+            border-radius: 10px;
+            background: rgba(103, 126, 234, 0.2);
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--gradient);
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+
+        /* Tooltip Enhancements */
+        [data-bs-toggle="tooltip"] {
+            cursor: help;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <i class="bi bi-stars"></i> Data Cleaner Pro
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
             </button>
-        </form>
-        <div id="loader" class="hidden text-center mt-6">
-            <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_usmfx6bp.json"
-                background="transparent" speed="1" style="width: 150px; height: 150px;" loop autoplay>
-            </lottie-player>
-            <p class="text-indigo-600 font-semibold mt-2">Nettoyage en cours...</p>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'index' %}">
+                            <i class="bi bi-house-door"></i> Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#guide">
+                            <i class="bi bi-book"></i> Guide
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="container">
+            <h1 class="hero-title">
+                <i class="bi bi-magic"></i> Data Cleaner Pro
+            </h1>
+            <p class="hero-subtitle">
+                Nettoyez vos données en quelques clics avec l'intelligence artificielle
+            </p>
         </div>
     </div>
 
-    <!-- Tableau nettoyé -->
-    <div id="resultSection" class="bg-white shadow-lg rounded-xl p-6 w-full max-w-5xl animate__animated animate__fadeInRight mb-10 hidden">
-        <h2 class="text-xl font-bold mb-4 text-gray-700">✅ Données nettoyées</h2>
-        <table id="cleanTable" class="display w-full"></table>
-        <a href="{% url 'download_cleaned' %}" 
-           class="mt-4 inline-block px-6 py-3 bg-green-600 text-white rounded-lg shadow-lg hover:bg-green-700">
-            ⬇️ Télécharger le fichier nettoyé
-        </a>
+    <!-- Guide Section -->
+    <div class="container" id="guide">
+        <div class="guide-section animate-on-scroll">
+            <h3 class="text-white text-center mb-4">
+                <i class="bi bi-lightbulb"></i> Comment ça marche ?
+            </h3>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="step-card d-flex">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h5><i class="bi bi-file-earmark-arrow-up"></i> Téléversez</h5>
+                            <p>Importez votre fichier de données (CSV, Excel, JSON, XML)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="step-card d-flex">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h5><i class="bi bi-gear"></i> Nettoyez</h5>
+                            <p>Notre IA détecte et corrige automatiquement les erreurs</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="step-card d-flex">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h5><i class="bi bi-download"></i> Téléchargez</h5>
+                            <p>Récupérez vos données propres et prêtes à l'emploi</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Main Upload Card -->
+    <div class="container">
+        <div class="main-card animate-on-scroll">
+            <div class="card-header-custom">
+                <h2><i class="bi bi-cloud-upload"></i> Téléverser vos données</h2>
+                <p>Formats acceptés : CSV, TXT, Excel, JSON, XML</p>
+            </div>
+            <div class="card-body p-4">
+                <form id="uploadForm" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <!-- File Drop Zone -->
+                    <div class="file-drop-zone" id="dropZone">
+                        <i class="bi bi-cloud-arrow-up"></i>
+                        <h4>Glissez-déposez votre fichier ici</h4>
+                        <p class="text-muted">ou cliquez pour parcourir</p>
+                        <label for="datafile" class="file-input-label">
+                            <i class="bi bi-folder2-open"></i> Choisir un fichier
+                        </label>
+                        <input type="file" name="datafile" id="datafile" class="d-none" required>
+                        
+                        <div class="selected-file" id="selectedFile">
+                            <i class="bi bi-check-circle text-success"></i>
+                            <strong>Fichier sélectionné :</strong>
+                            <span id="fileName"></span>
+                            <span class="badge-format" id="fileFormat"></span>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-gradient btn-lg" id="submitBtn">
+                            <i class="bi bi-rocket-takeoff"></i> Nettoyer mes données
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Loading Animation -->
+                <div class="loader-container" id="loaderContainer">
+                    <div class="loader"></div>
+                    <h4 class="text-primary"><i class="bi bi-hourglass-split"></i> Nettoyage en cours...</h4>
+                    <p class="text-muted">Veuillez patienter pendant que nous analysons vos données</p>
+                    <div class="progress-bar-custom">
+                        <div class="progress-bar-fill" id="progressBar" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div class="results-section" id="resultsSection">
+                    <!-- Statistics -->
+                    <div class="stats-grid" id="statsGrid">
+                        <!-- Statistiques seront insérées ici via JS -->
+                    </div>
+
+                    <!-- Data Table -->
+                    <div class="table-container">
+                        <h4 class="mb-3">
+                            <i class="bi bi-table"></i> Données nettoyées
+                        </h4>
+                        <div class="table-responsive">
+                            <table id="cleanedTable" class="table table-striped table-hover" style="width:100%">
+                                <!-- Contenu du tableau inséré via JS -->
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Charts Section -->
+                    <div id="chartsSection">
+                        <!-- Les graphiques seront insérés ici via JS -->
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <a href="{% url 'download_cleaned' %}" class="btn-download" id="downloadBtn">
+                            <i class="bi bi-download"></i> Télécharger le fichier nettoyé
+                        </a>
+                        <button type="button" class="btn-reset" onclick="resetForm()">
+                            <i class="bi bi-arrow-clockwise"></i> Nouveau nettoyage
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            <p>&copy; 2026 Data Cleaner Pro - Propulsé par l'Intelligence Artificielle</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
         // Récupérer le token CSRF
@@ -73,12 +847,71 @@
         }
         const csrftoken = getCookie('csrftoken');
 
-        $('#uploadForm').on('submit', function(e) {
-            e.preventDefault();
-            $('#loader').removeClass('hidden');
-            $('#resultSection').addClass('hidden');
+        // Variables globales
+        let cleanedData = null;
 
-            let formData = new FormData(this);
+        // File Drop Zone
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('datafile');
+        const selectedFile = document.getElementById('selectedFile');
+        const fileName = document.getElementById('fileName');
+        const fileFormat = document.getElementById('fileFormat');
+
+        // Drag & Drop
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('drag-over');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('drag-over');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+            
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                updateFileInfo(e.dataTransfer.files[0]);
+            }
+        });
+
+        // File input change
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                updateFileInfo(e.target.files[0]);
+            }
+        });
+
+        function updateFileInfo(file) {
+            fileName.textContent = file.name;
+            const extension = file.name.split('.').pop().toUpperCase();
+            fileFormat.textContent = extension;
+            selectedFile.classList.add('show');
+        }
+
+        // Form submission
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Reset previous results
+            document.getElementById('resultsSection').classList.remove('show');
+            
+            // Show loader
+            document.getElementById('loaderContainer').classList.add('show');
+            document.getElementById('submitBtn').disabled = true;
+            
+            // Animate progress bar
+            let progress = 0;
+            const progressBar = document.getElementById('progressBar');
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 90) progress = 90;
+                progressBar.style.width = progress + '%';
+            }, 200);
+
+            const formData = new FormData(this);
 
             $.ajax({
                 url: "{% url 'upload_file' %}",
@@ -90,26 +923,26 @@
                     'X-CSRFToken': csrftoken
                 },
                 success: function(data) {
-                    $('#loader').addClass('hidden');
-                    $('#resultSection').removeClass('hidden');
-
-                    if (data.length === 0) {
-                        alert("Aucune donnée nettoyée disponible !");
-                        return;
-                    }
-
-                    let columns = Object.keys(data[0]).map(col => ({ title: col, data: col }));
-
-                    $('#cleanTable').DataTable({
-                        destroy: true,
-                        data: data,
-                        columns: columns,
-                        responsive: true,
-                        pageLength: 10
-                    });
+                    clearInterval(progressInterval);
+                    progressBar.style.width = '100%';
+                    
+                    setTimeout(() => {
+                        document.getElementById('loaderContainer').classList.remove('show');
+                        document.getElementById('submitBtn').disabled = false;
+                        
+                        if (data && data.length > 0) {
+                            cleanedData = data;
+                            displayResults(data);
+                        } else {
+                            alert("Aucune donnée nettoyée disponible !");
+                        }
+                    }, 500);
                 },
                 error: function(xhr) {
-                    $('#loader').addClass('hidden');
+                    clearInterval(progressInterval);
+                    document.getElementById('loaderContainer').classList.remove('show');
+                    document.getElementById('submitBtn').disabled = false;
+                    
                     let errorMsg = "Erreur lors du nettoyage du fichier !";
                     if (xhr.responseJSON && xhr.responseJSON.error) {
                         errorMsg = xhr.responseJSON.error;
@@ -118,7 +951,139 @@
                 }
             });
         });
-    </script>
 
+        function displayResults(data) {
+            // Display statistics
+            displayStatistics(data);
+            
+            // Display table
+            displayDataTable(data);
+            
+            // Show results section
+            document.getElementById('resultsSection').classList.add('show');
+            
+            // Scroll to results
+            document.getElementById('resultsSection').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+        }
+
+        function displayStatistics(data) {
+            const statsGrid = document.getElementById('statsGrid');
+            statsGrid.innerHTML = '';
+            
+            const stats = [
+                {
+                    icon: 'bi-file-earmark-text',
+                    value: data.length,
+                    label: 'Lignes nettoyées',
+                    color: '--primary'
+                },
+                {
+                    icon: 'bi-columns',
+                    value: Object.keys(data[0] || {}).length,
+                    label: 'Colonnes',
+                    color: '--success'
+                },
+                {
+                    icon: 'bi-check-circle',
+                    value: '100%',
+                    label: 'Qualité',
+                    color: '--info'
+                }
+            ];
+            
+            stats.forEach(stat => {
+                statsGrid.innerHTML += `
+                    <div class="stat-card animate-on-scroll">
+                        <div class="stat-icon">
+                            <i class="${stat.icon}"></i>
+                        </div>
+                        <div class="stat-value">${stat.value}</div>
+                        <div class="stat-label">${stat.label}</div>
+                    </div>
+                `;
+            });
+        }
+
+        function displayDataTable(data) {
+            if ($.fn.DataTable.isDataTable('#cleanedTable')) {
+                $('#cleanedTable').DataTable().destroy();
+            }
+            
+            const columns = Object.keys(data[0]).map(col => ({
+                title: col,
+                data: col
+            }));
+            
+            $('#cleanedTable').DataTable({
+                data: data,
+                columns: columns,
+                responsive: true,
+                pageLength: 10,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json'
+                },
+                dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
+                     '<"row"<"col-sm-12"tr>>' +
+                     '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+                drawCallback: function() {
+                    $('.animate-on-scroll').each(function() {
+                        $(this).addClass('visible');
+                    });
+                }
+            });
+        }
+
+        function resetForm() {
+            document.getElementById('uploadForm').reset();
+            document.getElementById('selectedFile').classList.remove('show');
+            document.getElementById('resultsSection').classList.remove('show');
+            document.getElementById('progressBar').style.width = '0%';
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Animate on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.animate-on-scroll').forEach(element => {
+                observer.observe(element);
+            });
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Initialize tooltips
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+    </script>
 </body>
-</html> 
+</html>
