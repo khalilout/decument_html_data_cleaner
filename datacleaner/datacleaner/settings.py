@@ -51,7 +51,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'datacleaner.urls'
+ROOT_URLCONF = 'datacleaner.datacleaner.urls'
 
 TEMPLATES = [
     {
@@ -69,7 +69,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'datacleaner.wsgi.application'
+WSGI_APPLICATION = 'datacleaner.datacleaner.wsgi.application'
 
 
 # Database
