@@ -34,7 +34,7 @@ def upload(request):
         data = {'outlier_method': outlier_method}
         
         try:
-            response = requests.post('http://127.0.0.1:5000/clean', files=files, data=data, timeout=30)
+            response = requests.post('https://flask-data-cleaner-1.onrender.com/api/clean', files=files, data=data, timeout=30)
             
             # Vérification de la réponse Flask
             if response.status_code != 200:
