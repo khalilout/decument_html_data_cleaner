@@ -125,3 +125,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # 👇 AJOUTÉ : Champ auto par défaut
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEBUG = False
+# ALLOWED_HOSTS = ['ton-url-sur-render.onrender.com'] 
