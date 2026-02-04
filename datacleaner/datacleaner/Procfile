@@ -1,1 +1,1 @@
-web:gunicorn datacleaner.wsgi
+web: gunicorn datacleaner.datacleaner.wsgi:application
