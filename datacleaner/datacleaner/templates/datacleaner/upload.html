@@ -1067,16 +1067,18 @@
                 // Calculer le nombre de valeurs manquantes et doublons
                 let totalMissing = 0;
                 let totalDuplicates = 0;
+                let totalOutliers = 0;
                 
                 if (stats) {
                     Object.values(stats).forEach(colStat => {
                         if (colStat.missing !== undefined) totalMissing += colStat.missing;
                         if (colStat.duplicates !== undefined) totalDuplicates += colStat.duplicates;
+                        if (colStat.outliers !== undefined) totalOutliers += colStat.outliers;
                     });
                 }
                 
                 summaryCards.innerHTML = `
-                    <div class="col-md-3 col-sm-6">
+                    <div class="col-md-3 col-sm-6 col-lg-2">
                         <div class="summary-card">
                             <div class="summary-icon">
                                 <i class="bi bi-table"></i>
@@ -1086,7 +1088,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3 col-sm-6">
+                    <div class="col-md-3 col-sm-6 col-lg-2">
                         <div class="summary-card">
                             <div class="summary-icon">
                                 <i class="bi bi-columns"></i>
@@ -1096,7 +1098,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3 col-sm-6">
+                    <div class="col-md-3 col-sm-6 col-lg-3">
                         <div class="summary-card">
                             <div class="summary-icon">
                                 <i class="bi bi-exclamation-triangle"></i>
@@ -1106,13 +1108,23 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3 col-sm-6">
+                    <div class="col-md-3 col-sm-6 col-lg-3">
                         <div class="summary-card">
                             <div class="summary-icon">
                                 <i class="bi bi-files"></i>
                             </div>
                             <div class="summary-value">${totalDuplicates}</div>
                             <div class="summary-label">Doublons</div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 col-lg-2">
+                        <div class="summary-card">
+                            <div class="summary-icon">
+                                <i class="bi bi-graph-down-arrow"></i>
+                            </div>
+                            <div class="summary-value">${totalOutliers}</div>
+                            <div class="summary-label">Aberrantes</div>
                         </div>
                     </div>
                 `;
