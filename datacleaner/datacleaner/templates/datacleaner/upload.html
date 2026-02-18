@@ -666,6 +666,39 @@
             margin: 0;
             opacity: 0.9;
         }
+
+                /* Stats par colonne */
+        #columnStatsTable tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        #columnStatsTable tbody tr:hover {
+            background-color: rgba(103, 126, 234, 0.08);
+            transform: scale(1.01);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .progress {
+            background-color: rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar {
+            transition: width 0.8s ease-in-out;
+            background: linear-gradient(90deg, var(--bs-progress-bar-bg) 0%, var(--bs-progress-bar-bg) 100%);
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
     </style>
 </head>
 <body>
@@ -870,6 +903,79 @@
             </div>
         </div>
 
+                <!-- ═══════════ NOUVEAU : Statistiques par colonne ═══════════ -->
+        <div id="columnStatsSection" class="container mt-5" style="display: none;">
+            <div class="card shadow-lg border-0 animate-on-scroll">
+                <div class="card-header text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.5rem;">
+                    <h3 class="mb-0">
+                        <i class="bi bi-bar-chart-line-fill"></i> 
+                        📊 Analyse détaillée par colonne
+                    </h3>
+                    <p class="mb-0 mt-2 opacity-75" style="font-size: 0.95rem;">
+                        Nombre et pourcentage d'anomalies dans chaque colonne
+                    </p>
+                </div>
+                <div class="card-body p-4">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered" id="columnStatsTable" style="border-radius: 10px; overflow: hidden;">
+                            <thead style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+                                <tr>
+                                    <th style="width: 18%; font-weight: 600;">
+                                        <i class="bi bi-columns-gap"></i> Colonne
+                                    </th>
+                                    <th style="width: 27%; font-weight: 600;">
+                                        <i class="bi bi-exclamation-triangle text-danger"></i> 
+                                        Valeurs Manquantes
+                                    </th>
+                                    <th style="width: 27%; font-weight: 600;">
+                                        <i class="bi bi-graph-up text-warning"></i> 
+                                        Valeurs Aberrantes
+                                    </th>
+                                    <th style="width: 28%; font-weight: 600;">
+                                        <i class="bi bi-files text-info"></i> 
+                                        Doublons (Total fichier)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="columnStatsBody">
+                                <!-- Généré par JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Légende -->
+                    <div class="mt-4 p-3 rounded" style="background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 30%);">
+                        <h6 class="mb-3">
+                            <i class="bi bi-info-circle-fill"></i> 
+                            <strong>Légende des indicateurs</strong>
+                        </h6>
+                        <div class="row text-center">
+                            <div class="col-md-4">
+                                <div class="p-2 bg-white rounded shadow-sm">
+                                    <span class="badge bg-success" style="font-size: 1rem; padding: 0.5rem 1rem;">✓ OK</span>
+                                    <p class="mb-0 mt-2 small"><strong>&lt; 5%</strong> d'anomalies</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-2 bg-white rounded shadow-sm">
+                                    <span class="badge bg-warning text-dark" style="font-size: 1rem; padding: 0.5rem 1rem;">⚠ Attention</span>
+                                    <p class="mb-0 mt-2 small"><strong>5% - 20%</strong> d'anomalies</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-2 bg-white rounded shadow-sm">
+                                    <span class="badge bg-danger" style="font-size: 1rem; padding: 0.5rem 1rem;">⚠️ Critique</span>
+                                    <p class="mb-0 mt-2 small"><strong>≥ 20%</strong> d'anomalies</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ═══════════ FIN NOUVEAU ═══════════ -->
+        
+
         <!-- Results Section -->
         <div id="results" style="display: none;">
             <!-- Summary Cards -->
@@ -1052,6 +1158,9 @@
                 
                 // Afficher le tableau
                 displayDataTable(data);
+
+                // Afficher les stats par colonne
+                displayColumnStats(data.stats);
                 
                 // Afficher les graphiques (si stats disponibles)
                 if (Object.keys(stats).length > 0) {
@@ -1416,6 +1525,107 @@
                 });
             });
         });
+                // ═══════════ NOUVEAU : Affichage stats par colonne ═══════════
+        function displayColumnStats(stats) {
+            const tbody = document.getElementById('columnStatsBody');
+            if (!tbody) return;
+            
+            tbody.innerHTML = '';
+            
+            // Afficher la section
+            const section = document.getElementById('columnStatsSection');
+            if (section) {
+                section.style.display = 'block';
+            }
+            
+            // Parcourir chaque colonne
+            for (const [colName, colStats] of Object.entries(stats)) {
+                const row = document.createElement('tr');
+                row.style.transition = 'all 0.3s';
+                row.onmouseenter = function() {
+                    this.style.backgroundColor = 'rgba(103, 126, 234, 0.08)';
+                    this.style.transform = 'scale(1.01)';
+                };
+                row.onmouseleave = function() {
+                    this.style.backgroundColor = '';
+                    this.style.transform = 'scale(1)';
+                };
+                
+                // Nom de la colonne
+                const nameCell = document.createElement('td');
+                nameCell.innerHTML = `<strong style="color: #6f42c1; font-size: 1.05rem;">${colName}</strong>`;
+                nameCell.style.verticalAlign = 'middle';
+                
+                // Valeurs manquantes
+                const missingCell = document.createElement('td');
+                const missingCount = colStats.missing || 0;
+                const missingPct = colStats.missing_pct || 0;
+                missingCell.innerHTML = createStatCell(missingCount, missingPct, 'danger');
+                missingCell.style.verticalAlign = 'middle';
+                
+                // Valeurs aberrantes
+                const outliersCell = document.createElement('td');
+                const outliersCount = colStats.outliers || 0;
+                const outliersPct = colStats.outliers_pct || 0;
+                outliersCell.innerHTML = createStatCell(outliersCount, outliersPct, 'warning');
+                outliersCell.style.verticalAlign = 'middle';
+                
+                // Doublons (même pour toutes les colonnes)
+                const duplicatesCell = document.createElement('td');
+                const duplicatesCount = colStats.duplicates || 0;
+                const duplicatesPct = colStats.duplicates_pct || 0;
+                duplicatesCell.innerHTML = createStatCell(duplicatesCount, duplicatesPct, 'info');
+                duplicatesCell.style.verticalAlign = 'middle';
+                
+                row.appendChild(nameCell);
+                row.appendChild(missingCell);
+                row.appendChild(outliersCell);
+                row.appendChild(duplicatesCell);
+                
+                tbody.appendChild(row);
+            }
+        }
+
+        function createStatCell(count, percentage, colorType) {
+            let badgeClass = 'bg-success';
+            let icon = '✓';
+            let textColor = 'success';
+            
+            if (percentage >= 20) {
+                badgeClass = 'bg-danger';
+                icon = '⚠️';
+                textColor = 'danger';
+            } else if (percentage >= 5) {
+                badgeClass = `bg-${colorType}`;
+                if (colorType === 'warning') {
+                    badgeClass += ' text-dark';
+                }
+                icon = '⚠';
+                textColor = colorType;
+            }
+            
+            return `
+                <div class="d-flex align-items-center">
+                    <span class="badge ${badgeClass} me-3" style="min-width: 60px; font-size: 0.95rem; padding: 0.5rem;">
+                        ${count}
+                    </span>
+                    <div class="flex-grow-1">
+                        <div class="progress" style="height: 25px; border-radius: 10px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);">
+                            <div class="progress-bar bg-${colorType}" 
+                                role="progressbar" 
+                                style="width: ${percentage}%; font-weight: 600; font-size: 0.9rem;"
+                                aria-valuenow="${percentage}" 
+                                aria-valuemin="0" 
+                                aria-valuemax="100">
+                                ${percentage}%
+                            </div>
+                        </div>
+                    </div>
+                    <span style="font-size: 1.3em; margin-left: 0.5rem;">${icon}</span>
+                </div>
+            `;
+        }
+        // ═══════════ FIN NOUVEAU ═══════════
     </script>
 </body>
 </html>
