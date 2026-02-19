@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Cleaner Pro - Nettoyage Intelligent de Données</title>
     
-    <!-- Bootstrap & Librairies -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
@@ -27,11 +26,7 @@
             --gradient-alt: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -40,668 +35,217 @@
             overflow-x: hidden;
         }
 
-        /* Navbar */
-        .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        }
+        /* ── Navbar ── */
+        .navbar { background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); box-shadow: 0 4px 30px rgba(0,0,0,0.1); }
+        .navbar-brand { font-weight: 700; font-size: 1.8rem; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.8rem;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+        /* ── Hero ── */
+        .hero-section { padding: 4rem 0 2rem; text-align: center; color: white; }
+        .hero-title { font-size: 3rem; font-weight: 700; margin-bottom: 1rem; animation: fadeInDown 1s ease-out, floatTitle 3s ease-in-out infinite; }
+        @keyframes floatTitle { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-15px)} }
+        .hero-subtitle { font-size: 1.3rem; opacity: .95; margin-bottom: 2rem; animation: fadeInUp 1s ease-out; }
 
-        /* Hero Section */
-        .hero-section {
-            padding: 4rem 0 2rem;
-            text-align: center;
-            color: white;
-        }
+        /* ── Guide Steps ── */
+        .guide-section { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 20px; padding: 2rem; margin-bottom: 3rem; animation: fadeIn 1.2s ease-out; }
+        .step-card { background: rgba(255,255,255,0.95); border-radius: 15px; padding: 1.5rem; margin-bottom: 1rem; transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .step-card::before { content: ''; position: absolute; top: 0; left: 0; width: 5px; height: 100%; background: var(--gradient); transition: width 0.3s ease; }
+        .step-card:hover { transform: translateX(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+        .step-card:hover::before { width: 100%; opacity: 0.1; }
+        .step-number { width: 50px; height: 50px; border-radius: 50%; background: var(--gradient); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.5rem; margin-right: 1rem; flex-shrink: 0; }
+        .step-content h5 { color: var(--primary); font-weight: 600; margin-bottom: .5rem; }
+        .step-content p  { color: #666; margin: 0; font-size: .95rem; }
 
-        .hero-title {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            animation: fadeInDown 1s ease-out, floatTitle 3s ease-in-out infinite;
-        }
+        /* ── Main Card ── */
+        .main-card { background: white; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden; margin-bottom: 3rem; animation: fadeInUp 1s ease-out; }
+        .card-header-custom { background: var(--gradient); color: white; padding: 2rem; text-align: center; position: relative; overflow: hidden; }
+        .card-header-custom::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); animation: pulse 3s ease-in-out infinite; }
+        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+        .card-header-custom h2 { margin: 0; font-size: 2rem; font-weight: 600; position: relative; z-index: 1; }
+        .card-header-custom p  { margin: .5rem 0 0; opacity: .9; position: relative; z-index: 1; }
 
-        @keyframes floatTitle {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-15px);
-            }
-        }
+        /* ── File Drop Zone ── */
+        .file-drop-zone { border: 3px dashed #d0d0d0; border-radius: 20px; padding: 3rem 2rem; text-align: center; cursor: pointer; background: linear-gradient(145deg,#f8f9fa,#ffffff); transition: all 0.4s ease; position: relative; overflow: hidden; }
+        .file-drop-zone::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-radius: 50%; background: rgba(103,126,234,0.1); transform: translate(-50%,-50%); transition: all 0.5s ease; }
+        .file-drop-zone:hover::before { width: 500px; height: 500px; }
+        .file-drop-zone:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 15px 40px rgba(103,126,234,0.2); }
+        .file-drop-zone.dragover { border-color: var(--secondary); background: linear-gradient(145deg,#f5f0ff,#fff5f8); transform: scale(1.02); }
+        .upload-icon { font-size: 4rem; color: var(--primary); margin-bottom: 1rem; animation: bounce 2s infinite; position: relative; z-index: 1; }
+        @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-15px)} }
+        .file-drop-zone input[type="file"] { position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; cursor: pointer; z-index: 2; }
+        .file-info { position: relative; z-index: 1; }
+        .file-name-display { margin-top: 1rem; padding: 1rem; background: #e7f3ff; border-radius: 10px; color: var(--primary); font-weight: 500; display: none; animation: fadeIn 0.5s ease; }
+        .file-name-display.show { display: block; }
 
-        .hero-subtitle {
-            font-size: 1.3rem;
-            opacity: 0.95;
-            margin-bottom: 2rem;
-            animation: fadeInUp 1s ease-out;
-        }
+        /* ── Method Selection ── */
+        .method-section { margin: 2rem 0; }
+        .method-title { color: var(--primary); font-weight: 600; text-align: center; margin-bottom: 2rem; }
+        .method-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 1rem; }
+        .method-option { position: relative; }
+        .method-option input[type="radio"] { position: absolute; opacity: 0; }
+        .method-label { display: block; padding: 1.5rem 1rem; background: #f8f9fa; border: 2px solid #e0e0e0; border-radius: 15px; text-align: center; cursor: pointer; transition: all 0.3s ease; }
+        .method-option input[type="radio"]:checked + .method-label { background: var(--gradient); color: white; border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 25px rgba(103,126,234,0.3); }
+        .method-label:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .method-icon { font-size: 2rem; display: block; margin-bottom: .5rem; }
 
-        /* Guide Steps */
-        .guide-section {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 3rem;
-            animation: fadeIn 1.2s ease-out;
-        }
+        /* ── Submit Button ── */
+        .btn-submit { background: var(--gradient); color: white; border: none; padding: 1.2rem 3rem; font-size: 1.2rem; font-weight: 600; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 8px 25px rgba(103,126,234,0.3); position: relative; overflow: hidden; }
+        .btn-submit::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-radius: 50%; background: rgba(255,255,255,0.3); transform: translate(-50%,-50%); transition: all 0.6s ease; }
+        .btn-submit:hover::before { width: 400px; height: 400px; }
+        .btn-submit:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 15px 40px rgba(103,126,234,0.4); }
+        .btn-submit:active { transform: translateY(0) scale(0.98); }
+        .btn-submit span { position: relative; z-index: 1; }
 
-        .step-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
+        /* ── Loading Overlay ── */
+        .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 9999; }
+        .loading-overlay.show { display: flex; }
+        .spinner { width: 80px; height: 80px; border: 8px solid rgba(255,255,255,0.2); border-top-color: white; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        .step-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 5px;
-            height: 100%;
-            background: var(--gradient);
-            transition: width 0.3s ease;
-        }
+        /* ── Summary Cards ── */
+        .summary-section { margin: 3rem 0; }
+        .summary-card { background: white; border-radius: 20px; padding: 2rem; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .summary-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: var(--gradient); }
+        .summary-card:hover { transform: translateY(-10px); box-shadow: 0 20px 50px rgba(0,0,0,0.15); }
+        .summary-icon { font-size: 3rem; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+        .summary-value { font-size: 2.5rem; font-weight: 700; color: var(--dark); margin: .5rem 0; }
+        .summary-label { color: #666; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; }
 
-        .step-card:hover {
-            transform: translateX(10px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-        }
+        /* ── Table ── */
+        .table-container { background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin: 2rem 0; }
+        .table-container h3 { color: var(--primary); font-weight: 600; margin-bottom: 2rem; text-align: center; }
+        .table thead { background: var(--gradient); color: white; }
+        .table tbody tr { transition: all 0.2s ease; }
+        .table tbody tr:hover { background: #f8f9fa; transform: scale(1.01); }
 
-        .step-card:hover::before {
-            width: 100%;
-            opacity: 0.1;
-        }
+        /* ── Download ── */
+        .btn-download { background: var(--gradient-alt); color: white; border: none; padding: 1rem 2.5rem; font-size: 1.1rem; font-weight: 600; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 8px 25px rgba(245,87,108,0.3); text-decoration: none; display: inline-block; }
+        .btn-download:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(245,87,108,0.4); color: white; }
 
-        .step-number {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--gradient);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.5rem;
-            margin-right: 1rem;
-            flex-shrink: 0;
-        }
+        /* ── Charts ── */
+        .chart-section { background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin: 2rem 0; }
+        .chart-section h3 { color: var(--primary); font-weight: 600; margin-bottom: 2rem; text-align: center; }
+        .chart-wrapper { background: linear-gradient(145deg,#f8f9fa,#ffffff); border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: all 0.3s ease; min-height: 300px; display: flex; align-items: center; justify-content: center; }
+        .chart-wrapper:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(103,126,234,0.15); }
 
-        .step-content h5 {
-            color: var(--primary);
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .step-content p {
-            color: #666;
-            margin: 0;
-            font-size: 0.95rem;
-        }
-
-        /* Main Card */
-        .main-card {
+        /* ══════════════════════════════════════════════════
+           SECTION STATS PAR COLONNE
+        ══════════════════════════════════════════════════ */
+        .col-stats-section {
             background: white;
-            border-radius: 25px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-            margin-bottom: 3rem;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        .card-header-custom {
-            background: var(--gradient);
-            color: white;
-            padding: 2rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card-header-custom::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: pulse 3s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .card-header-custom h2 {
-            margin: 0;
-            font-size: 2rem;
-            font-weight: 600;
-            position: relative;
-            z-index: 1;
-        }
-
-        .card-header-custom p {
-            margin: 0.5rem 0 0;
-            opacity: 0.9;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* File Drop Zone */
-        .file-drop-zone {
-            border: 3px dashed #d0d0d0;
             border-radius: 20px;
-            padding: 3rem 2rem;
-            text-align: center;
-            cursor: pointer;
-            background: linear-gradient(145deg, #f8f9fa, #ffffff);
-            transition: all 0.4s ease;
-            position: relative;
             overflow: hidden;
-        }
-
-        .file-drop-zone::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(103, 126, 234, 0.1);
-            transform: translate(-50%, -50%);
-            transition: all 0.5s ease;
-        }
-
-        .file-drop-zone:hover::before {
-            width: 500px;
-            height: 500px;
-        }
-
-        .file-drop-zone:hover {
-            border-color: var(--primary);
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(103, 126, 234, 0.2);
-        }
-
-        .file-drop-zone.dragover {
-            border-color: var(--secondary);
-            background: linear-gradient(145deg, #f5f0ff, #fff5f8);
-            transform: scale(1.02);
-        }
-
-        .upload-icon {
-            font-size: 4rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            animation: bounce 2s infinite;
-            position: relative;
-            z-index: 1;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-
-        .file-drop-zone input[type="file"] {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            opacity: 0;
-            cursor: pointer;
-            z-index: 2;
-        }
-
-        .file-info {
-            position: relative;
-            z-index: 1;
-        }
-
-        .file-name-display {
-            margin-top: 1rem;
-            padding: 1rem;
-            background: #e7f3ff;
-            border-radius: 10px;
-            color: var(--primary);
-            font-weight: 500;
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .file-name-display.show {
-            display: block;
-        }
-
-        /* Method Selection */
-        .method-section {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
             margin: 2rem 0;
         }
-
-        .method-title {
-            color: var(--primary);
-            font-weight: 600;
-            text-align: center;
-            margin-bottom: 2rem;
+        .col-stats-header {
+            background: var(--gradient);
+            padding: 1.5rem 2rem;
+            color: white;
         }
+        .col-stats-header h3 { margin: 0; font-size: 1.3rem; font-weight: 600; }
+        .col-stats-header p  { margin: .35rem 0 0; opacity: .85; font-size: .9rem; }
 
-        .method-grid {
+        /* Onglets */
+        .col-stats-tabs {
+            display: flex;
+            border-bottom: 2px solid #f0f0f0;
+            background: #fafafa;
+            padding: 0 2rem;
+            gap: .5rem;
+        }
+        .col-tab-btn {
+            padding: .85rem 1.4rem;
+            border: none; background: transparent;
+            font-family: 'Poppins', sans-serif;
+            font-size: .88rem; font-weight: 500;
+            color: #888; cursor: pointer;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.25s ease;
+            display: flex; align-items: center; gap: 7px;
+        }
+        .col-tab-btn:hover  { color: var(--primary); }
+        .col-tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 700; }
+        .tab-count { font-size: .7rem; padding: .15rem .45rem; border-radius: 100px; font-weight: 700; background: var(--primary); color: white; }
+
+        /* Grille cartes */
+        .col-cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.25rem;
+            padding: 1.75rem 2rem;
         }
+        .col-card { border: 1px solid #ececec; border-radius: 14px; overflow: hidden; transition: transform 0.25s ease, box-shadow 0.25s ease; }
+        .col-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(103,126,234,0.12); border-color: rgba(103,126,234,0.3); }
 
-        .method-option {
-            position: relative;
-        }
+        .col-card-head { background: linear-gradient(135deg,#f8f8ff,#f0ecff); padding: .85rem 1.1rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ececec; }
+        .col-card-name { font-weight: 700; font-size: .9rem; color: var(--primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px; }
+        .col-card-type { font-size: .68rem; font-weight: 600; padding: .2rem .6rem; border-radius: 100px; text-transform: uppercase; letter-spacing: .5px; }
+        .col-card-type.num { background: rgba(32,201,151,0.12); color: #0ca678; border: 1px solid rgba(32,201,151,0.25); }
+        .col-card-type.cat { background: rgba(13,202,240,0.12); color: #0891b2; border: 1px solid rgba(13,202,240,0.25); }
 
-        .method-option input[type="radio"] {
-            position: absolute;
-            opacity: 0;
-        }
+        .col-card-body { padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: .75rem; }
 
-        .method-label {
-            display: block;
-            padding: 1.5rem 1rem;
-            background: #f8f9fa;
-            border: 2px solid #e0e0e0;
-            border-radius: 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+        /* Ligne stat */
+        .stat-row { display: flex; flex-direction: column; gap: .3rem; }
+        .stat-row-top { display: flex; align-items: center; justify-content: space-between; font-size: .8rem; }
+        .stat-row-label { color: #555; font-weight: 500; display: flex; align-items: center; gap: 5px; }
+        .stat-row-values { display: flex; align-items: center; gap: 6px; }
+        .stat-count { font-weight: 700; font-size: .88rem; padding: .15rem .5rem; border-radius: 6px; }
+        .stat-count.missing { background: rgba(220,53,69,0.1); color: #dc3545; }
+        .stat-count.outlier { background: rgba(255,193,7,0.15); color: #b8860b; }
+        .stat-count.duplic  { background: rgba(13,202,240,0.1); color: #0891b2; }
+        .stat-pct { font-size: .75rem; color: #999; }
 
-        .method-option input[type="radio"]:checked + .method-label {
-            background: var(--gradient);
-            color: white;
-            border-color: var(--primary);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(103, 126, 234, 0.3);
-        }
+        .stat-bar-track { height: 6px; border-radius: 3px; background: #f0f0f0; overflow: hidden; }
+        .stat-bar-fill { height: 100%; border-radius: 3px; width: 0%; transition: width 1s cubic-bezier(0.16,1,0.3,1); }
+        .stat-bar-fill.missing { background: linear-gradient(90deg,#ff6b6b,#dc3545); }
+        .stat-bar-fill.outlier { background: linear-gradient(90deg,#ffd93d,#ffc107); }
+        .stat-bar-fill.duplic  { background: linear-gradient(90deg,#74c0fc,#0dcaf0); }
 
-        .method-label:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
+        /* Status badge */
+        .col-card-status { display: flex; align-items: center; justify-content: center; padding: .5rem 1rem; border-top: 1px solid #f0f0f0; font-size: .78rem; font-weight: 600; gap: 5px; }
+        .status-ok      { color: #20c997; background: rgba(32,201,151,0.06); }
+        .status-warning { color: #b8860b;  background: rgba(255,193,7,0.07); }
+        .status-danger  { color: #dc3545;  background: rgba(220,53,69,0.06); }
 
-        .method-icon {
-            font-size: 2rem;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
+        /* Légende */
+        .col-stats-legend { display: flex; gap: 1rem; flex-wrap: wrap; padding: .75rem 2rem 1.25rem; border-top: 1px solid #f5f5f5; }
+        .legend-item { display: flex; align-items: center; gap: 6px; font-size: .8rem; color: #666; }
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+        .legend-dot.ok      { background: #20c997; }
+        .legend-dot.warning { background: #ffc107; }
+        .legend-dot.danger  { background: #dc3545; }
 
-        /* Submit Button */
-        .btn-submit {
-            background: var(--gradient);
-            color: white;
-            border: none;
-            padding: 1.2rem 3rem;
-            font-size: 1.2rem;
-            font-weight: 600;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(103, 126, 234, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-submit::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: translate(-50%, -50%);
-            transition: all 0.6s ease;
-        }
-
-        .btn-submit:hover::before {
-            width: 400px;
-            height: 400px;
-        }
-
-        .btn-submit:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 15px 40px rgba(103, 126, 234, 0.4);
-        }
-
-        .btn-submit:active {
-            transform: translateY(0) scale(0.98);
-        }
-
-        .btn-submit span {
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Loading Overlay */
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-        }
-
-        .loading-overlay.show {
-            display: flex;
-        }
-
-        .spinner {
-            width: 80px;
-            height: 80px;
-            border: 8px solid rgba(255, 255, 255, 0.2);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Summary Cards */
-        .summary-section {
-            margin: 3rem 0;
-        }
-
-        .summary-card {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .summary-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: var(--gradient);
-        }
-
-        .summary-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-        }
-
-        .summary-icon {
-            font-size: 3rem;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1rem;
-        }
-
-        .summary-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--dark);
-            margin: 0.5rem 0;
-        }
-
-        .summary-label {
-            color: #666;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Table Styling */
-        .table-container {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            margin: 2rem 0;
-        }
-
-        .table-container h3 {
-            color: var(--primary);
-            font-weight: 600;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-
-        .table {
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .table thead {
-            background: var(--gradient);
-            color: white;
-        }
-
-        .table tbody tr {
-            transition: all 0.2s ease;
-        }
-
-        .table tbody tr:hover {
-            background: #f8f9fa;
-            transform: scale(1.01);
-        }
-
-        /* Download Button */
-        .btn-download {
-            background: var(--gradient-alt);
-            color: white;
-            border: none;
-            padding: 1rem 2.5rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(245, 87, 108, 0.3);
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-download:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(245, 87, 108, 0.4);
-            color: white;
-        }
-
-        /* Chart Section */
-        .chart-section {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            margin: 2rem 0;
-        }
-
-        .chart-section h3 {
-            color: var(--primary);
-            font-weight: 600;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-
-        .chart-wrapper {
-            background: linear-gradient(145deg, #f8f9fa, #ffffff);
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            min-height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .chart-wrapper:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(103, 126, 234, 0.15);
-        }
-
-        /* Responsive */
+        /* ── Responsive ── */
         @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2rem;
-            }
-
-            .hero-subtitle {
-                font-size: 1rem;
-            }
-
-            .step-card {
-                padding: 1rem;
-            }
-
-            .step-number {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
-            }
-
-            .method-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .btn-submit {
-                padding: 1rem 2rem;
-                font-size: 1rem;
-            }
-
-            .summary-value {
-                font-size: 2rem;
-            }
-
-            .card-header-custom h2 {
-                font-size: 1.5rem;
-            }
+            .hero-title { font-size: 2rem; }
+            .hero-subtitle { font-size: 1rem; }
+            .step-card { padding: 1rem; }
+            .step-number { width: 40px; height: 40px; font-size: 1.2rem; }
+            .method-grid { grid-template-columns: 1fr; }
+            .btn-submit { padding: 1rem 2rem; font-size: 1rem; }
+            .summary-value { font-size: 2rem; }
+            .card-header-custom h2 { font-size: 1.5rem; }
+            .col-cards-grid { grid-template-columns: 1fr; }
+            .col-stats-tabs { padding: 0 1rem; flex-wrap: wrap; }
         }
 
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
+        /* ── Animations ── */
+        @keyframes fadeIn    { from{opacity:0} to{opacity:1} }
+        @keyframes fadeInUp  { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes fadeInDown{ from{opacity:0;transform:translateY(-30px)} to{opacity:1;transform:translateY(0)} }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        .animate-on-scroll { opacity:0; transform:translateY(30px); transition:all 0.6s ease; }
+        .animate-on-scroll.visible { opacity:1; transform:translateY(0); }
 
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
-
-        .animate-on-scroll.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Footer */
-        .footer {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            color: white;
-            text-align: center;
-            padding: 2rem;
-            margin-top: 4rem;
-        }
-
-        .footer p {
-            margin: 0;
-            opacity: 0.9;
-        }
-
-                /* Stats par colonne */
-        #columnStatsTable tbody tr {
-            transition: all 0.3s ease;
-        }
-
-        #columnStatsTable tbody tr:hover {
-            background-color: rgba(103, 126, 234, 0.08);
-            transform: scale(1.01);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .progress {
-            background-color: rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .progress-bar {
-            transition: width 0.8s ease-in-out;
-            background: linear-gradient(90deg, var(--bs-progress-bar-bg) 0%, var(--bs-progress-bar-bg) 100%);
-        }
-
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
-
-        .animate-on-scroll.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
+        /* ── Footer ── */
+        .footer { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); color: white; text-align: center; padding: 2rem; margin-top: 4rem; }
+        .footer p { margin: 0; opacity: .9; }
     </style>
 </head>
 <body>
+
     <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="text-center">
@@ -721,16 +265,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'index' %}">Acceuil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#guide">Guide</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#upload">Upload</a>
-                    </li>
-                    <li class="nav-item" id="resultsNavItem" style="display: none;">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Accueil</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#guide">Guide</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#upload">Upload</a></li>
+                    <li class="nav-item" id="resultsNavItem" style="display:none">
                         <a class="nav-link" href="#results">Résultats</a>
                     </li>
                 </ul>
@@ -738,25 +276,19 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero -->
     <div class="hero-section">
         <div class="container">
-            <h1 class="hero-title">
-                <i class="bi bi-magic"></i> Nettoyage Intelligent de Données
-            </h1>
-            <p class="hero-subtitle">
-                Transformez vos données brutes en données propres et exploitables en quelques clics
-            </p>
+            <h1 class="hero-title"><i class="bi bi-magic"></i> Nettoyage Intelligent de Données</h1>
+            <p class="hero-subtitle">Transformez vos données brutes en données propres et exploitables en quelques clics</p>
         </div>
     </div>
 
     <div class="container pb-5">
-        <!-- Guide Section -->
+
+        <!-- Guide -->
         <div class="guide-section" id="guide">
-            <h2 class="text-white text-center mb-4">
-                <i class="bi bi-lightbulb"></i> Comment ça marche ?
-            </h2>
-            
+            <h2 class="text-white text-center mb-4"><i class="bi bi-lightbulb"></i> Comment ça marche ?</h2>
             <div class="row">
                 <div class="col-md-4 mb-3">
                     <div class="step-card">
@@ -769,7 +301,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-md-4 mb-3">
                     <div class="step-card">
                         <div class="d-flex align-items-center">
@@ -781,7 +312,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-md-4 mb-3">
                     <div class="step-card">
                         <div class="d-flex align-items-center">
@@ -794,57 +324,37 @@
                     </div>
                 </div>
             </div>
-
             <div class="text-center mt-4">
-                <p class="text-white mb-2">
-                    <i class="bi bi-check-circle"></i> Suppression automatique des doublons
-                </p>
-                <p class="text-white mb-2">
-                    <i class="bi bi-check-circle"></i> Traitement intelligent des valeurs manquantes
-                </p>
-                <p class="text-white mb-0">
-                    <i class="bi bi-check-circle"></i> Détection et correction des valeurs aberrantes
-                </p>
+                <p class="text-white mb-2"><i class="bi bi-check-circle"></i> Suppression automatique des doublons</p>
+                <p class="text-white mb-2"><i class="bi bi-check-circle"></i> Traitement intelligent des valeurs manquantes</p>
+                <p class="text-white mb-0"><i class="bi bi-check-circle"></i> Détection et correction des valeurs aberrantes</p>
             </div>
         </div>
 
-        <!-- Upload Section -->
+        <!-- Upload -->
         <div class="main-card animate-on-scroll" id="upload">
             <div class="card-header-custom">
                 <h2><i class="bi bi-cloud-upload"></i> Importez vos données</h2>
                 <p>Formats supportés : CSV, TXT, Excel (.xls, .xlsx), JSON, XML</p>
             </div>
-
             <div class="card-body p-4">
                 <form method="POST" id="uploadForm">
                     {% csrf_token %}
-                    
-                    <!-- File Drop Zone -->
                     <div class="file-drop-zone" id="dropZone">
                         <input type="file" name="datafile" id="datafile" required>
                         <div class="file-info">
-                            <div class="upload-icon">
-                                <i class="bi bi-cloud-arrow-up"></i>
-                            </div>
+                            <div class="upload-icon"><i class="bi bi-cloud-arrow-up"></i></div>
                             <h4>Glissez-déposez votre fichier ici</h4>
                             <p class="text-muted">ou cliquez pour sélectionner</p>
-                            <small class="text-muted">
-                                <i class="bi bi-info-circle"></i> Taille maximale : 50 MB
-                            </small>
+                            <small class="text-muted"><i class="bi bi-info-circle"></i> Taille maximale : 50 MB</small>
                         </div>
                     </div>
-
                     <div class="file-name-display" id="fileNameDisplay">
-                        <i class="bi bi-file-earmark-check"></i>
-                        <span id="fileName"></span>
+                        <i class="bi bi-file-earmark-check"></i> <span id="fileName"></span>
                     </div>
 
-                    <!-- Method Selection -->
                     <div class="method-section">
-                        <h4 class="method-title">
-                            <i class="bi bi-gear"></i> Méthode de traitement des valeurs aberrantes
-                        </h4>
-                        
+                        <h4 class="method-title"><i class="bi bi-gear"></i> Méthode de traitement des valeurs aberrantes</h4>
                         <div class="method-grid">
                             <div class="method-option">
                                 <input type="radio" name="outlier_method" id="iqr" value="iqr" checked>
@@ -854,7 +364,6 @@
                                     <small class="d-block text-muted mt-2">Limite les valeurs extrêmes (IQR)</small>
                                 </label>
                             </div>
-
                             <div class="method-option">
                                 <input type="radio" name="outlier_method" id="median" value="median">
                                 <label class="method-label" for="median">
@@ -863,7 +372,6 @@
                                     <small class="d-block text-muted mt-2">Remplace par la médiane</small>
                                 </label>
                             </div>
-
                             <div class="method-option">
                                 <input type="radio" name="outlier_method" id="log" value="log">
                                 <label class="method-label" for="log">
@@ -872,7 +380,6 @@
                                     <small class="d-block text-muted mt-2">Transformation log</small>
                                 </label>
                             </div>
-
                             <div class="method-option">
                                 <input type="radio" name="outlier_method" id="delete" value="delete">
                                 <label class="method-label" for="delete">
@@ -881,7 +388,6 @@
                                     <small class="d-block text-muted mt-2">Supprime les lignes</small>
                                 </label>
                             </div>
-
                             <div class="method-option">
                                 <input type="radio" name="outlier_method" id="none" value="none">
                                 <label class="method-label" for="none">
@@ -893,7 +399,6 @@
                         </div>
                     </div>
 
-                    <!-- Submit Button -->
                     <div class="text-center mt-4">
                         <button type="submit" class="btn-submit">
                             <span><i class="bi bi-rocket-takeoff"></i> Nettoyer mes données</span>
@@ -903,102 +408,63 @@
             </div>
         </div>
 
-                <!-- ═══════════ NOUVEAU : Statistiques par colonne ═══════════ -->
-        <div id="columnStatsSection" class="container mt-5" style="display: none;">
-            <div class="card shadow-lg border-0 animate-on-scroll">
-                <div class="card-header text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.5rem;">
-                    <h3 class="mb-0">
-                        <i class="bi bi-bar-chart-line-fill"></i> 
-                        📊 Analyse détaillée par colonne
-                    </h3>
-                    <p class="mb-0 mt-2 opacity-75" style="font-size: 0.95rem;">
-                        Nombre et pourcentage d'anomalies dans chaque colonne
-                    </p>
-                </div>
-                <div class="card-body p-4">
-                    <div class="table-responsive">
-                        <table class="table table-hover table-bordered" id="columnStatsTable" style="border-radius: 10px; overflow: hidden;">
-                            <thead style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
-                                <tr>
-                                    <th style="width: 18%; font-weight: 600;">
-                                        <i class="bi bi-columns-gap"></i> Colonne
-                                    </th>
-                                    <th style="width: 27%; font-weight: 600;">
-                                        <i class="bi bi-exclamation-triangle text-danger"></i> 
-                                        Valeurs Manquantes
-                                    </th>
-                                    <th style="width: 27%; font-weight: 600;">
-                                        <i class="bi bi-graph-up text-warning"></i> 
-                                        Valeurs Aberrantes
-                                    </th>
-                                    <th style="width: 28%; font-weight: 600;">
-                                        <i class="bi bi-files text-info"></i> 
-                                        Doublons (Total fichier)
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody id="columnStatsBody">
-                                <!-- Généré par JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <!-- Légende -->
-                    <div class="mt-4 p-3 rounded" style="background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 30%);">
-                        <h6 class="mb-3">
-                            <i class="bi bi-info-circle-fill"></i> 
-                            <strong>Légende des indicateurs</strong>
-                        </h6>
-                        <div class="row text-center">
-                            <div class="col-md-4">
-                                <div class="p-2 bg-white rounded shadow-sm">
-                                    <span class="badge bg-success" style="font-size: 1rem; padding: 0.5rem 1rem;">✓ OK</span>
-                                    <p class="mb-0 mt-2 small"><strong>&lt; 5%</strong> d'anomalies</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="p-2 bg-white rounded shadow-sm">
-                                    <span class="badge bg-warning text-dark" style="font-size: 1rem; padding: 0.5rem 1rem;">⚠ Attention</span>
-                                    <p class="mb-0 mt-2 small"><strong>5% - 20%</strong> d'anomalies</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="p-2 bg-white rounded shadow-sm">
-                                    <span class="badge bg-danger" style="font-size: 1rem; padding: 0.5rem 1rem;">⚠️ Critique</span>
-                                    <p class="mb-0 mt-2 small"><strong>≥ 20%</strong> d'anomalies</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- ═══════════ FIN NOUVEAU ═══════════ -->
-        
+        <!-- ═══════════════════════════════════════════
+             RÉSULTATS
+        ═══════════════════════════════════════════ -->
+        <div id="results" style="display:none">
 
-        <!-- Results Section -->
-        <div id="results" style="display: none;">
             <!-- Summary Cards -->
             <div class="summary-section animate-on-scroll">
                 <h2 class="text-white text-center mb-4">
                     <i class="bi bi-graph-up"></i> Résumé des données nettoyées
                 </h2>
-                
-                <div class="row g-4" id="summaryCards">
-                    <!-- Les cartes seront insérées ici par JavaScript -->
+                <div class="row g-4" id="summaryCards"></div>
+            </div>
+
+            <!-- ══ STATS PAR COLONNE ══ -->
+            <div class="col-stats-section animate-on-scroll" id="colStatsSection" style="display:none">
+                <div class="col-stats-header">
+                    <h3><i class="bi bi-bar-chart-line-fill"></i> Analyse détaillée par colonne</h3>
+                    <p>Nombre et pourcentage d'anomalies détectées avant nettoyage</p>
+                </div>
+
+                <!-- Onglets filtres -->
+                <div class="col-stats-tabs">
+                    <button class="col-tab-btn active" onclick="filterColCards('all', this)">
+                        <i class="bi bi-grid-3x3-gap-fill"></i> Toutes
+                        <span class="tab-count" id="tabCountAll">0</span>
+                    </button>
+                    <button class="col-tab-btn" onclick="filterColCards('missing', this)">
+                        <i class="bi bi-exclamation-triangle-fill" style="color:#dc3545"></i> Manquantes
+                        <span class="tab-count" id="tabCountMissing" style="background:#dc3545">0</span>
+                    </button>
+                    <button class="col-tab-btn" onclick="filterColCards('outlier', this)">
+                        <i class="bi bi-graph-up-arrow" style="color:#b8860b"></i> Aberrantes
+                        <span class="tab-count" id="tabCountOutlier" style="background:#ffc107;color:#212529">0</span>
+                    </button>
+                    <button class="col-tab-btn" onclick="filterColCards('duplic', this)">
+                        <i class="bi bi-files" style="color:#0891b2"></i> Doublons (lignes)
+                        <span class="tab-count" id="tabCountDuplic" style="background:#0dcaf0;color:#212529">0</span>
+                    </button>
+                </div>
+
+                <!-- Grille des cartes -->
+                <div class="col-cards-grid" id="colCardsGrid"></div>
+
+                <!-- Légende -->
+                <div class="col-stats-legend">
+                    <div class="legend-item"><div class="legend-dot ok"></div> &lt; 5% — Acceptable</div>
+                    <div class="legend-item"><div class="legend-dot warning"></div> 5% à 20% — Attention</div>
+                    <div class="legend-item"><div class="legend-dot danger"></div> ≥ 20% — Critique</div>
                 </div>
             </div>
 
             <!-- Data Table -->
             <div class="table-container animate-on-scroll">
                 <h3><i class="bi bi-table"></i> Aperçu des données nettoyées</h3>
-                
                 <div class="table-responsive">
-                    <table id="dataTable" class="table table-hover">
-                        <!-- Contenu inséré par JavaScript -->
-                    </table>
+                    <table id="dataTable" class="table table-hover"></table>
                 </div>
-
                 <div class="text-center mt-4">
                     <a href="{% url 'download_cleaned' %}" class="btn-download">
                         <i class="bi bi-download"></i> Télécharger le fichier nettoyé
@@ -1006,21 +472,19 @@
                 </div>
             </div>
 
-            <!-- Charts Section -->
-            <div class="chart-section animate-on-scroll" id="chartsSection" style="display: none;">
+            <!-- Charts -->
+            <div class="chart-section animate-on-scroll" id="chartsSection" style="display:none">
                 <h3><i class="bi bi-bar-chart"></i> Statistiques visuelles</h3>
-                
-                <div class="row g-4" id="chartsContainer">
-                    <!-- Les graphiques seront insérés ici par JavaScript -->
-                </div>
+                <div class="row g-4" id="chartsContainer"></div>
             </div>
-        </div>
+
+        </div><!-- /results -->
     </div>
 
     <!-- Footer -->
     <div class="footer">
         <div class="container">
-            <p><i class="bi bi-heart-fill text-danger"></i> Data Cleaner Pro -KHALILOU TANDIA © 2026</p>
+            <p><i class="bi bi-heart-fill text-danger"></i> Data Cleaner Pro — KHALILOU TANDIA © 2026</p>
         </div>
     </div>
 
@@ -1032,600 +496,362 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        // Récupérer le token CSRF
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
+    /* ══════════════════════════════════════════
+       CSRF
+    ══════════════════════════════════════════ */
+    function getCookie(name) {
+        let v = null;
+        if (document.cookie) {
+            document.cookie.split(';').forEach(c => {
+                c = c.trim();
+                if (c.startsWith(name + '=')) v = decodeURIComponent(c.slice(name.length + 1));
+            });
         }
-        const csrftoken = getCookie('csrftoken');
+        return v;
+    }
+    const csrftoken = getCookie('csrftoken');
 
-        $(document).ready(function() {
-            // Variables globales
-            let cleanedData = null;
-            let cleanedStats = null;
+    /* ══════════════════════════════════════════
+       FILTRE ONGLETS — global (appelé depuis le HTML)
+    ══════════════════════════════════════════ */
+    function filterColCards(filter, btn) {
+        document.querySelectorAll('.col-tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.col-card').forEach(card => {
+            if (filter === 'all') { card.style.display = ''; return; }
+            card.style.display = parseInt(card.dataset[filter] || '0') > 0 ? '' : 'none';
+        });
+    }
 
-            // File upload handling
-            const dropZone = document.getElementById('dropZone');
-            const fileInput = document.getElementById('datafile');
-            const fileNameDisplay = document.getElementById('fileNameDisplay');
-            const fileName = document.getElementById('fileName');
-            const uploadForm = document.getElementById('uploadForm');
-            const loadingOverlay = document.getElementById('loadingOverlay');
+    $(document).ready(function () {
 
-            // File selection
-            fileInput.addEventListener('change', function(e) {
-                if (this.files && this.files[0]) {
-                    fileName.textContent = this.files[0].name;
-                    fileNameDisplay.classList.add('show');
-                }
-            });
+        /* ── Drag & Drop ── */
+        const dropZone       = document.getElementById('dropZone');
+        const fileInput      = document.getElementById('datafile');
+        const fileNameDisplay= document.getElementById('fileNameDisplay');
+        const fileNameEl     = document.getElementById('fileName');
 
-            // Drag and drop
-            dropZone.addEventListener('dragover', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                this.classList.add('dragover');
-            });
-
-            dropZone.addEventListener('dragleave', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                this.classList.remove('dragover');
-            });
-
-            dropZone.addEventListener('drop', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                this.classList.remove('dragover');
-                
-                const files = e.dataTransfer.files;
-                if (files.length > 0) {
-                    fileInput.files = files;
-                    fileName.textContent = files[0].name;
-                    fileNameDisplay.classList.add('show');
-                }
-            });
-
-            // Form submission avec AJAX
-            uploadForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                loadingOverlay.classList.add('show');
-
-                const formData = new FormData(this);
-
-                $.ajax({
-                    url: "{% url 'upload_file' %}",
-                    type: "POST",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    headers: {
-                        'X-CSRFToken': csrftoken
-                    },
-                    success: function(response) {
-                        loadingOverlay.classList.remove('show');
-                        
-                        if (response && response.data && response.data.length > 0) {
-                            cleanedData = response.data;
-                            cleanedStats = response.stats || {};
-                            displayResults(response);
-                            
-                            // Afficher l'item de navigation "Résultats"
-                            document.getElementById('resultsNavItem').style.display = 'block';
-                            
-                            // Scroller vers les résultats
-                            setTimeout(() => {
-                                document.getElementById('results').scrollIntoView({ 
-                                    behavior: 'smooth', 
-                                    block: 'start' 
-                                });
-                            }, 300);
-                        } else {
-                            alert("Aucune donnée nettoyée disponible !");
-                        }
-                    },
-                    error: function(xhr) {
-                        loadingOverlay.classList.remove('show');
-                        
-                        let errorMsg = "Erreur lors du nettoyage du fichier !";
-                        if (xhr.responseJSON && xhr.responseJSON.error) {
-                            errorMsg = xhr.responseJSON.error;
-                        }
-                        alert(errorMsg);
-                    }
-                });
-            });
-
-            function displayResults(response) {
-                const data = response.data;
-                const stats = response.stats || {};
-                
-                // Afficher la section des résultats
-                document.getElementById('results').style.display = 'block';
-                
-                // Afficher les cartes de résumé
-                displaySummaryCards(data, stats);
-                
-                // Afficher le tableau
-                displayDataTable(data);
-
-                // Afficher les stats par colonne
-                displayColumnStats(data.stats);
-                
-                // Afficher les graphiques (si stats disponibles)
-                if (Object.keys(stats).length > 0) {
-                    displayCharts(stats);
-                }
+        fileInput.addEventListener('change', function () {
+            if (this.files && this.files[0]) {
+                fileNameEl.textContent = this.files[0].name;
+                fileNameDisplay.classList.add('show');
             }
-
-            function displaySummaryCards(data, stats) {
-                const summaryCards = document.getElementById('summaryCards');
-                const numRows = data.length;
-                const numCols = Object.keys(data[0] || {}).length;
-                
-                // Calculer le nombre de valeurs manquantes et doublons
-                let totalMissing = 0;
-                let totalDuplicates = 0;
-                let totalOutliers = 0;
-                
-                if (stats) {
-                    Object.values(stats).forEach(colStat => {
-                        if (colStat.missing !== undefined) totalMissing += colStat.missing;
-                        if (colStat.duplicates !== undefined) totalDuplicates += colStat.duplicates;
-                        if (colStat.outliers !== undefined) totalOutliers += colStat.outliers;
-                    });
-                }
-                
-                summaryCards.innerHTML = `
-                    <div class="col-md-3 col-sm-6 col-lg-2">
-                        <div class="summary-card">
-                            <div class="summary-icon">
-                                <i class="bi bi-table"></i>
-                            </div>
-                            <div class="summary-value">${numRows}</div>
-                            <div class="summary-label">Lignes</div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-6 col-lg-2">
-                        <div class="summary-card">
-                            <div class="summary-icon">
-                                <i class="bi bi-columns"></i>
-                            </div>
-                            <div class="summary-value">${numCols}</div>
-                            <div class="summary-label">Colonnes</div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-6 col-lg-3">
-                        <div class="summary-card">
-                            <div class="summary-icon">
-                                <i class="bi bi-exclamation-triangle"></i>
-                            </div>
-                            <div class="summary-value">${totalMissing}</div>
-                            <div class="summary-label">Val. Manquantes</div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-6 col-lg-3">
-                        <div class="summary-card">
-                            <div class="summary-icon">
-                                <i class="bi bi-files"></i>
-                            </div>
-                            <div class="summary-value">${totalDuplicates}</div>
-                            <div class="summary-label">Doublons</div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-6 col-lg-2">
-                        <div class="summary-card">
-                            <div class="summary-icon">
-                                <i class="bi bi-graph-down-arrow"></i>
-                            </div>
-                            <div class="summary-value">${totalOutliers}</div>
-                            <div class="summary-label">Aberrantes</div>
-                        </div>
-                    </div>
-                `;
+        });
+        dropZone.addEventListener('dragover',  e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+        dropZone.addEventListener('dragleave', e => { e.preventDefault(); dropZone.classList.remove('dragover'); });
+        dropZone.addEventListener('drop', e => {
+            e.preventDefault(); dropZone.classList.remove('dragover');
+            if (e.dataTransfer.files.length > 0) {
+                fileInput.files = e.dataTransfer.files;
+                fileNameEl.textContent = e.dataTransfer.files[0].name;
+                fileNameDisplay.classList.add('show');
             }
+        });
 
-            function displayDataTable(data) {
-                if ($.fn.DataTable.isDataTable('#dataTable')) {
-                    $('#dataTable').DataTable().destroy();
-                }
-                
-                const columns = Object.keys(data[0]).map(col => ({
-                    title: col,
-                    data: col
-                }));
-                
-                $('#dataTable').DataTable({
-                    data: data,
-                    columns: columns,
-                    pageLength: 10,
-                    language: {
-                        search: "_INPUT_",
-                        searchPlaceholder: "Rechercher...",
-                        lengthMenu: "Afficher _MENU_ lignes",
-                        info: "Affichage de _START_ à _END_ sur _TOTAL_ lignes",
-                        infoEmpty: "Aucune ligne à afficher",
-                        infoFiltered: "(filtré sur _MAX_ lignes)",
-                        paginate: {
-                            first: "Premier",
-                            last: "Dernier",
-                            next: "Suivant",
-                            previous: "Précédent"
-                        }
-                    },
-                    responsive: true
-                });
-            }
+        /* ── Soumission AJAX ── */
+        document.getElementById('uploadForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            document.getElementById('loadingOverlay').classList.add('show');
 
-            function displayCharts(stats) {
-                const chartsSection = document.getElementById('chartsSection');
-                const chartsContainer = document.getElementById('chartsContainer');
-                
-                chartsContainer.innerHTML = '';
-                let hasNumericData = false;
-                
-                const chartColors = [
-                    'rgba(103, 126, 234, 0.8)',
-                    'rgba(118, 75, 162, 0.8)',
-                    'rgba(32, 201, 151, 0.8)',
-                    'rgba(255, 193, 7, 0.8)',
-                    'rgba(220, 53, 69, 0.8)'
-                ];
-
-                const chartColorsBorder = [
-                    'rgba(103, 126, 234, 1)',
-                    'rgba(118, 75, 162, 1)',
-                    'rgba(32, 201, 151, 1)',
-                    'rgba(255, 193, 7, 1)',
-                    'rgba(220, 53, 69, 1)'
-                ];
-                
-                let chartIndex = 0;
-                
-                Object.entries(stats).forEach(([col, colStats]) => {
-                    if (colStats.mean !== undefined) {
-                        hasNumericData = true;
-                        
-                        // Créer un ID unique pour chaque graphique
-                        const barChartId = `chart-bar-${chartIndex}`;
-                        const pieChartId = `chart-pie-${chartIndex}`;
-                        
-                        // Ajouter les conteneurs des graphiques
-                        chartsContainer.innerHTML += `
-                            <div class="col-lg-6">
-                                <div class="chart-wrapper p-3">
-                                    <canvas id="${barChartId}"></canvas>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="chart-wrapper p-3">
-                                    <canvas id="${pieChartId}"></canvas>
-                                </div>
-                            </div>
-                        `;
-                        
-                        // Attendre que les éléments soient dans le DOM
+            $.ajax({
+                url: "{% url 'upload_file' %}",
+                type: 'POST',
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                headers: { 'X-CSRFToken': csrftoken },
+                success: function (response) {
+                    document.getElementById('loadingOverlay').classList.remove('show');
+                    if (response && response.data && response.data.length > 0) {
+                        displayResults(response);
+                        document.getElementById('resultsNavItem').style.display = 'block';
                         setTimeout(() => {
-                            // Graphique en barres
-                            new Chart(document.getElementById(barChartId), {
-                                type: 'bar',
-                                data: {
-                                    labels: ['Moyenne', 'Médiane', 'Min', 'Max', 'Écart-type'],
-                                    datasets: [{
-                                        label: col,
-                                        data: [
-                                            colStats.mean,
-                                            colStats.median,
-                                            colStats.min,
-                                            colStats.max,
-                                            colStats.std
-                                        ],
-                                        backgroundColor: chartColors,
-                                        borderColor: chartColorsBorder,
-                                        borderWidth: 2,
-                                        borderRadius: 10
-                                    }]
-                                },
-                                options: {
-                                    responsive: true,
-                                    maintainAspectRatio: true,
-                                    plugins: {
-                                        legend: {
-                                            display: false
-                                        },
-                                        title: {
-                                            display: true,
-                                            text: `📊 ${col} - Vue en barres`,
-                                            font: {
-                                                size: 16,
-                                                weight: 'bold'
-                                            },
-                                            color: '#6f42c1'
-                                        },
-                                        tooltip: {
-                                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                                            padding: 12,
-                                            borderColor: '#6f42c1',
-                                            borderWidth: 2,
-                                            titleFont: {
-                                                size: 14
-                                            },
-                                            bodyFont: {
-                                                size: 13
-                                            },
-                                            callbacks: {
-                                                label: function(context) {
-                                                    return context.label + ': ' + context.parsed.y.toFixed(2);
-                                                }
-                                            }
-                                        }
-                                    },
-                                    scales: {
-                                        y: {
-                                            beginAtZero: true,
-                                            grid: {
-                                                color: 'rgba(0, 0, 0, 0.05)'
-                                            },
-                                            ticks: {
-                                                font: {
-                                                    size: 12
-                                                }
-                                            }
-                                        },
-                                        x: {
-                                            grid: {
-                                                display: false
-                                            },
-                                            ticks: {
-                                                font: {
-                                                    size: 11
-                                                }
-                                            }
-                                        }
-                                    },
-                                    animation: {
-                                        duration: 1500,
-                                        easing: 'easeInOutQuart'
-                                    }
-                                }
-                            });
-
-                            // Graphique en camembert (pie chart)
-                            new Chart(document.getElementById(pieChartId), {
-                                type: 'doughnut',
-                                data: {
-                                    labels: ['Moyenne', 'Médiane', 'Min', 'Max', 'Écart-type'],
-                                    datasets: [{
-                                        label: col,
-                                        data: [
-                                            Math.abs(colStats.mean),
-                                            Math.abs(colStats.median),
-                                            Math.abs(colStats.min),
-                                            Math.abs(colStats.max),
-                                            Math.abs(colStats.std)
-                                        ],
-                                        backgroundColor: chartColors,
-                                        borderColor: '#ffffff',
-                                        borderWidth: 3,
-                                        hoverOffset: 15
-                                    }]
-                                },
-                                options: {
-                                    responsive: true,
-                                    maintainAspectRatio: true,
-                                    plugins: {
-                                        legend: {
-                                            display: true,
-                                            position: 'bottom',
-                                            labels: {
-                                                padding: 15,
-                                                font: {
-                                                    size: 12
-                                                },
-                                                usePointStyle: true,
-                                                pointStyle: 'circle'
-                                            }
-                                        },
-                                        title: {
-                                            display: true,
-                                            text: `🥧 ${col} - Répartition`,
-                                            font: {
-                                                size: 16,
-                                                weight: 'bold'
-                                            },
-                                            color: '#6f42c1',
-                                            padding: {
-                                                bottom: 20
-                                            }
-                                        },
-                                        tooltip: {
-                                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                                            padding: 12,
-                                            borderColor: '#6f42c1',
-                                            borderWidth: 2,
-                                            titleFont: {
-                                                size: 14
-                                            },
-                                            bodyFont: {
-                                                size: 13
-                                            },
-                                            callbacks: {
-                                                label: function(context) {
-                                                    const label = context.label || '';
-                                                    const value = context.parsed;
-                                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                                    const percentage = ((value / total) * 100).toFixed(1);
-                                                    return label + ': ' + value.toFixed(2) + ' (' + percentage + '%)';
-                                                }
-                                            }
-                                        }
-                                    },
-                                    animation: {
-                                        animateRotate: true,
-                                        animateScale: true,
-                                        duration: 2000,
-                                        easing: 'easeInOutQuart'
-                                    }
-                                }
-                            });
-                        }, 100);
-                        
-                        chartIndex++;
+                            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }, 300);
+                    } else {
+                        alert('Aucune donnée nettoyée disponible !');
                     }
-                });
-                
-                if (hasNumericData) {
-                    chartsSection.style.display = 'block';
+                },
+                error: function (xhr) {
+                    document.getElementById('loadingOverlay').classList.remove('show');
+                    alert(xhr.responseJSON?.error || 'Erreur lors du nettoyage du fichier !');
                 }
-            }
-
-            // Scroll animations
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver(function(entries) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, observerOptions);
-
-            document.querySelectorAll('.animate-on-scroll').forEach(element => {
-                observer.observe(element);
-            });
-
-            // Smooth scroll for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                });
             });
         });
-                // ═══════════ NOUVEAU : Affichage stats par colonne ═══════════
-        function displayColumnStats(stats) {
-            const tbody = document.getElementById('columnStatsBody');
-            if (!tbody) return;
-            
-            tbody.innerHTML = '';
-            
-            // Afficher la section
-            const section = document.getElementById('columnStatsSection');
-            if (section) {
-                section.style.display = 'block';
-            }
-            
-            // Parcourir chaque colonne
-            for (const [colName, colStats] of Object.entries(stats)) {
-                const row = document.createElement('tr');
-                row.style.transition = 'all 0.3s';
-                row.onmouseenter = function() {
-                    this.style.backgroundColor = 'rgba(103, 126, 234, 0.08)';
-                    this.style.transform = 'scale(1.01)';
-                };
-                row.onmouseleave = function() {
-                    this.style.backgroundColor = '';
-                    this.style.transform = 'scale(1)';
-                };
-                
-                // Nom de la colonne
-                const nameCell = document.createElement('td');
-                nameCell.innerHTML = `<strong style="color: #6f42c1; font-size: 1.05rem;">${colName}</strong>`;
-                nameCell.style.verticalAlign = 'middle';
-                
-                // Valeurs manquantes
-                const missingCell = document.createElement('td');
-                const missingCount = colStats.missing || 0;
-                const missingPct = colStats.missing_pct || 0;
-                missingCell.innerHTML = createStatCell(missingCount, missingPct, 'danger');
-                missingCell.style.verticalAlign = 'middle';
-                
-                // Valeurs aberrantes
-                const outliersCell = document.createElement('td');
-                const outliersCount = colStats.outliers || 0;
-                const outliersPct = colStats.outliers_pct || 0;
-                outliersCell.innerHTML = createStatCell(outliersCount, outliersPct, 'warning');
-                outliersCell.style.verticalAlign = 'middle';
-                
-                // Doublons (même pour toutes les colonnes)
-                const duplicatesCell = document.createElement('td');
-                const duplicatesCount = colStats.duplicates || 0;
-                const duplicatesPct = colStats.duplicates_pct || 0;
-                duplicatesCell.innerHTML = createStatCell(duplicatesCount, duplicatesPct, 'info');
-                duplicatesCell.style.verticalAlign = 'middle';
-                
-                row.appendChild(nameCell);
-                row.appendChild(missingCell);
-                row.appendChild(outliersCell);
-                row.appendChild(duplicatesCell);
-                
-                tbody.appendChild(row);
-            }
+
+        /* ══════════════════════════════════════════
+           AFFICHAGE DES RÉSULTATS
+        ══════════════════════════════════════════ */
+        function displayResults(response) {
+            const data  = response.data;
+            const stats = response.stats || {};   // ← stats vient de response, pas de data
+
+            document.getElementById('results').style.display = 'block';
+
+            displaySummaryCards(data, stats);
+            displayColumnStats(data, stats);      // ← données ET stats passés correctement
+            displayDataTable(data);
+
+            if (Object.keys(stats).length > 0) displayCharts(stats);
         }
 
-        function createStatCell(count, percentage, colorType) {
-            let badgeClass = 'bg-success';
-            let icon = '✓';
-            let textColor = 'success';
-            
-            if (percentage >= 20) {
-                badgeClass = 'bg-danger';
-                icon = '⚠️';
-                textColor = 'danger';
-            } else if (percentage >= 5) {
-                badgeClass = `bg-${colorType}`;
-                if (colorType === 'warning') {
-                    badgeClass += ' text-dark';
+        /* ── Cartes résumé ──
+           BUG CORRIGÉ : duplicates est une valeur globale (identique dans chaque colonne).
+           On la prend UNE SEULE FOIS au lieu de tout additionner. */
+        function displaySummaryCards(data, stats) {
+            const numRows = data.length;
+            const numCols = Object.keys(data[0] || {}).length;
+
+            let totalMissing    = 0;
+            let totalOutliers   = 0;
+            let totalDuplicates = 0;
+            let dupFound        = false;
+
+            Object.values(stats).forEach(s => {
+                if (s.missing  !== undefined) totalMissing  += s.missing;
+                if (s.outliers !== undefined) totalOutliers += s.outliers;
+                // duplicates = même valeur dans toutes les colonnes → prendre une fois
+                if (!dupFound && s.duplicates !== undefined) {
+                    totalDuplicates = s.duplicates;
+                    dupFound = true;
                 }
-                icon = '⚠';
-                textColor = colorType;
-            }
-            
-            return `
-                <div class="d-flex align-items-center">
-                    <span class="badge ${badgeClass} me-3" style="min-width: 60px; font-size: 0.95rem; padding: 0.5rem;">
-                        ${count}
-                    </span>
-                    <div class="flex-grow-1">
-                        <div class="progress" style="height: 25px; border-radius: 10px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);">
-                            <div class="progress-bar bg-${colorType}" 
-                                role="progressbar" 
-                                style="width: ${percentage}%; font-weight: 600; font-size: 0.9rem;"
-                                aria-valuenow="${percentage}" 
-                                aria-valuemin="0" 
-                                aria-valuemax="100">
-                                ${percentage}%
+            });
+
+            document.getElementById('summaryCards').innerHTML = `
+                <div class="col-md-3 col-sm-6 col-lg-2">
+                    <div class="summary-card">
+                        <div class="summary-icon"><i class="bi bi-table"></i></div>
+                        <div class="summary-value">${numRows.toLocaleString('fr')}</div>
+                        <div class="summary-label">Lignes</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-lg-2">
+                    <div class="summary-card">
+                        <div class="summary-icon"><i class="bi bi-columns"></i></div>
+                        <div class="summary-value">${numCols}</div>
+                        <div class="summary-label">Colonnes</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-lg-3">
+                    <div class="summary-card">
+                        <div class="summary-icon"><i class="bi bi-exclamation-triangle"></i></div>
+                        <div class="summary-value">${totalMissing.toLocaleString('fr')}</div>
+                        <div class="summary-label">Val. Manquantes</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-lg-3">
+                    <div class="summary-card">
+                        <div class="summary-icon"><i class="bi bi-files"></i></div>
+                        <div class="summary-value">${totalDuplicates.toLocaleString('fr')}</div>
+                        <div class="summary-label">Doublons (lignes)</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-lg-2">
+                    <div class="summary-card">
+                        <div class="summary-icon"><i class="bi bi-graph-down-arrow"></i></div>
+                        <div class="summary-value">${totalOutliers.toLocaleString('fr')}</div>
+                        <div class="summary-label">Aberrantes</div>
+                    </div>
+                </div>`;
+        }
+
+        /* ══════════════════════════════════════════
+           STATS PAR COLONNE — grille de cartes
+        ══════════════════════════════════════════ */
+        function displayColumnStats(data, stats) {
+            if (!stats || Object.keys(stats).length === 0) return;
+
+            const totalRows = data.length;
+            const grid = document.getElementById('colCardsGrid');
+            grid.innerHTML = '';
+
+            let totalCols = 0, colsMissing = 0, colsOutlier = 0, colsDuplic = 0;
+
+            Object.entries(stats).forEach(([col, s]) => {
+                totalCols++;
+
+                const missing    = s.missing    || 0;
+                const outliers   = s.outliers   || 0;
+                const duplicates = s.duplicates || 0;
+
+                // Utiliser les pourcentages pré-calculés par Flask si disponibles
+                const missingPct  = s.missing_pct    !== undefined ? s.missing_pct
+                                  : (totalRows > 0 ? +((missing    / totalRows) * 100).toFixed(2) : 0);
+                const outliersPct = s.outliers_pct   !== undefined ? s.outliers_pct
+                                  : (totalRows > 0 ? +((outliers   / totalRows) * 100).toFixed(2) : 0);
+                const duplicsPct  = s.duplicates_pct !== undefined ? s.duplicates_pct
+                                  : (totalRows > 0 ? +((duplicates / totalRows) * 100).toFixed(2) : 0);
+
+                if (missing    > 0) colsMissing++;
+                if (outliers   > 0) colsOutlier++;
+                if (duplicates > 0) colsDuplic++;
+
+                const isNumeric = s.mean !== undefined;
+
+                // Statut global : on prend le max des 3 pourcentages
+                const maxPct = Math.max(missingPct, outliersPct, duplicsPct);
+                let statusClass = 'status-ok',      statusText = '✓ Bonne qualité';
+                if      (maxPct >= 20) { statusClass = 'status-danger';  statusText = '⚠️ Critique'; }
+                else if (maxPct >=  5) { statusClass = 'status-warning'; statusText = '⚠ Attention'; }
+
+                const card = document.createElement('div');
+                card.className = 'col-card';
+                // Data-attributs pour le filtre par onglet
+                card.dataset.missing = missing;
+                card.dataset.outlier = outliers;
+                card.dataset.duplic  = duplicates;
+
+                card.innerHTML = `
+                    <div class="col-card-head">
+                        <span class="col-card-name" title="${col}">${col}</span>
+                        <span class="col-card-type ${isNumeric ? 'num' : 'cat'}">${isNumeric ? 'Numérique' : 'Catégoriel'}</span>
+                    </div>
+                    <div class="col-card-body">
+
+                        <div class="stat-row">
+                            <div class="stat-row-top">
+                                <span class="stat-row-label">
+                                    <i class="bi bi-exclamation-circle-fill" style="color:#dc3545"></i> Manquantes
+                                </span>
+                                <div class="stat-row-values">
+                                    <span class="stat-count missing">${missing}</span>
+                                    <span class="stat-pct">${missingPct}%</span>
+                                </div>
+                            </div>
+                            <div class="stat-bar-track">
+                                <div class="stat-bar-fill missing" data-pct="${Math.min(missingPct, 100)}"></div>
                             </div>
                         </div>
+
+                        <div class="stat-row">
+                            <div class="stat-row-top">
+                                <span class="stat-row-label">
+                                    <i class="bi bi-graph-up-arrow" style="color:#b8860b"></i> Aberrantes
+                                </span>
+                                <div class="stat-row-values">
+                                    <span class="stat-count outlier">${outliers}</span>
+                                    <span class="stat-pct">${outliersPct}%</span>
+                                </div>
+                            </div>
+                            <div class="stat-bar-track">
+                                <div class="stat-bar-fill outlier" data-pct="${Math.min(outliersPct, 100)}"></div>
+                            </div>
+                        </div>
+
+                        <div class="stat-row">
+                            <div class="stat-row-top">
+                                <span class="stat-row-label">
+                                    <i class="bi bi-files" style="color:#0891b2"></i> Doublons (lignes)
+                                </span>
+                                <div class="stat-row-values">
+                                    <span class="stat-count duplic">${duplicates}</span>
+                                    <span class="stat-pct">${duplicsPct}%</span>
+                                </div>
+                            </div>
+                            <div class="stat-bar-track">
+                                <div class="stat-bar-fill duplic" data-pct="${Math.min(duplicsPct, 100)}"></div>
+                            </div>
+                        </div>
+
                     </div>
-                    <span style="font-size: 1.3em; margin-left: 0.5rem;">${icon}</span>
-                </div>
-            `;
+                    <div class="col-card-status ${statusClass}">${statusText}</div>
+                `;
+
+                grid.appendChild(card);
+            });
+
+            // Mise à jour des compteurs d'onglets
+            document.getElementById('tabCountAll').textContent     = totalCols;
+            document.getElementById('tabCountMissing').textContent = colsMissing;
+            document.getElementById('tabCountOutlier').textContent = colsOutlier;
+            document.getElementById('tabCountDuplic').textContent  = colsDuplic;
+
+            // Afficher la section
+            document.getElementById('colStatsSection').style.display = 'block';
+
+            // Animer les barres après rendu DOM
+            setTimeout(() => {
+                document.querySelectorAll('.stat-bar-fill').forEach(bar => {
+                    bar.style.width = bar.dataset.pct + '%';
+                });
+            }, 200);
         }
-        // ═══════════ FIN NOUVEAU ═══════════
+
+        /* ── DataTable ── */
+        function displayDataTable(data) {
+            if ($.fn.DataTable.isDataTable('#dataTable')) $('#dataTable').DataTable().destroy();
+            const columns = Object.keys(data[0]).map(col => ({ title: col, data: col }));
+            $('#dataTable').DataTable({
+                data, columns,
+                pageLength: 10,
+                language: {
+                    search: '_INPUT_', searchPlaceholder: 'Rechercher...',
+                    lengthMenu: 'Afficher _MENU_ lignes',
+                    info: 'Affichage de _START_ à _END_ sur _TOTAL_ lignes',
+                    infoEmpty: 'Aucune ligne à afficher',
+                    infoFiltered: '(filtré sur _MAX_ lignes)',
+                    paginate: { first: 'Premier', last: 'Dernier', next: 'Suivant', previous: 'Précédent' }
+                },
+                responsive: true
+            });
+        }
+
+        /* ── Graphiques Chart.js ── */
+        function displayCharts(stats) {
+            const container = document.getElementById('chartsContainer');
+            container.innerHTML = '';
+            let hasNumeric = false, idx = 0;
+
+            const colors = [
+                'rgba(103,126,234,.8)','rgba(118,75,162,.8)',
+                'rgba(32,201,151,.8)','rgba(255,193,7,.8)','rgba(220,53,69,.8)'
+            ];
+            const borders = colors.map(c => c.replace('.8','1'));
+
+            Object.entries(stats).forEach(([col, cs]) => {
+                if (cs.mean === undefined) return;
+                hasNumeric = true;
+                const bId = `chart-bar-${idx}`, pId = `chart-pie-${idx}`;
+
+                container.innerHTML += `
+                    <div class="col-lg-6"><div class="chart-wrapper p-3"><canvas id="${bId}"></canvas></div></div>
+                    <div class="col-lg-6"><div class="chart-wrapper p-3"><canvas id="${pId}"></canvas></div></div>`;
+
+                setTimeout(() => {
+                    new Chart(document.getElementById(bId), {
+                        type: 'bar',
+                        data: { labels: ['Moyenne','Médiane','Min','Max','Écart-type'], datasets: [{ label: col, data: [cs.mean,cs.median,cs.min,cs.max,cs.std], backgroundColor: colors, borderColor: borders, borderWidth: 2, borderRadius: 10 }] },
+                        options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false }, title: { display: true, text: `📊 ${col} - Vue en barres`, font: { size: 16, weight: 'bold' }, color: '#6f42c1' }, tooltip: { backgroundColor: 'rgba(0,0,0,.8)', padding: 12, borderColor: '#6f42c1', borderWidth: 2, callbacks: { label: ctx => ctx.label + ': ' + ctx.parsed.y.toFixed(2) } } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,.05)' } }, x: { grid: { display: false } } }, animation: { duration: 1500, easing: 'easeInOutQuart' } }
+                    });
+                    new Chart(document.getElementById(pId), {
+                        type: 'doughnut',
+                        data: { labels: ['Moyenne','Médiane','Min','Max','Écart-type'], datasets: [{ data: [cs.mean,cs.median,cs.min,cs.max,cs.std].map(Math.abs), backgroundColor: colors, borderColor: '#fff', borderWidth: 3, hoverOffset: 15 }] },
+                        options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: true, position: 'bottom', labels: { padding: 15, usePointStyle: true, pointStyle: 'circle' } }, title: { display: true, text: `🥧 ${col} - Répartition`, font: { size: 16, weight: 'bold' }, color: '#6f42c1', padding: { bottom: 20 } }, tooltip: { backgroundColor: 'rgba(0,0,0,.8)', padding: 12, borderColor: '#6f42c1', borderWidth: 2, callbacks: { label: ctx => { const t = ctx.dataset.data.reduce((a,b)=>a+b,0); return `${ctx.label}: ${ctx.parsed.toFixed(2)} (${((ctx.parsed/t)*100).toFixed(1)}%)`; } } } }, animation: { animateRotate: true, animateScale: true, duration: 2000, easing: 'easeInOutQuart' } }
+                    });
+                }, 100);
+                idx++;
+            });
+
+            if (hasNumeric) document.getElementById('chartsSection').style.display = 'block';
+        }
+
+        /* ── Scroll animations ── */
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+        /* ── Smooth scroll ── */
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                e.preventDefault();
+                const t = document.querySelector(a.getAttribute('href'));
+                if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+    }); // fin $(document).ready
     </script>
 </body>
 </html>
